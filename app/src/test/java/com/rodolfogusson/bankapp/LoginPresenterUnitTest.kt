@@ -1,0 +1,34 @@
+package com.rodolfogusson.bankapp
+
+import android.util.Log
+import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+
+
+@RunWith(RobolectricTestRunner::class)
+class LoginPresenterUnitTest {
+
+    @Test
+    fun presentLoginData_with_validInput_shouldCall_displayLoginData() {
+        // Given
+        val presenter = LoginPresenter()
+        val response = LoginResponse()
+        // Set up the Spy or Mocks
+        // response.listOfFlights = FlightWorker().futureFlights
+
+
+        // When
+        presenter.presentLoginData(response)
+
+        // Then
+        // Assert.assertTrue("When the valid input is passed to presenter" +
+        //        "Then displayLoginData should be called",
+        //         homeFragmentInputSpy.isDisplayHomeMetaDataCalled)
+    }
+
+    companion object {
+        const val TAG = "HomePresenterUnitTest"
+    }
+}
