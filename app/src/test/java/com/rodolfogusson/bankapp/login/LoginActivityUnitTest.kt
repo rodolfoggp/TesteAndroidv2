@@ -29,7 +29,7 @@ class LoginActivityUnitTest {
 
     @Test
     fun `activity is not null`(){
-        //TODO
+        assertNotNull(activity)
     }
 
     @Test
@@ -46,7 +46,7 @@ class LoginActivityUnitTest {
     }
 
     @Test
-    fun `when user input is validated, the next activity is called`() {
+    fun `when user input is validated successfully, the next activity is called`() {
         //GIVEN
         val validatorMock = mock<Validator>()
         activity.validator = validatorMock
