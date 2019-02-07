@@ -1,4 +1,4 @@
-package com.rodolfogusson.bankapp
+package com.rodolfogusson.bankapp.login
 
 interface LoginWorkerInput {
     // Define needed interfaces

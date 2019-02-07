@@ -1,5 +1,7 @@
 package com.rodolfogusson.bankapp
 
+import com.rodolfogusson.bankapp.login.LoginActivity
+import com.rodolfogusson.bankapp.login.LoginRouter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

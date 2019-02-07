@@ -1,4 +1,4 @@
-package com.rodolfogusson.bankapp
+package com.rodolfogusson.bankapp.login
 
 import android.view.View
 import android.widget.AdapterView

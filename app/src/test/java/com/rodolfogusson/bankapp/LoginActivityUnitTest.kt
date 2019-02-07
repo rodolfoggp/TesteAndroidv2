@@ -1,9 +1,12 @@
 package com.rodolfogusson.bankapp
 
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.bankapp.login.LoginActivity
+import com.rodolfogusson.bankapp.login.LoginDataValidator
+import com.rodolfogusson.bankapp.login.LoginInteractor
+import com.rodolfogusson.bankapp.login.User
 import kotlinx.android.synthetic.main.activity_login.*
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,25 +18,45 @@ import org.robolectric.RobolectricTestRunner
 class LoginActivityUnitTest {
 
     private lateinit var activity: LoginActivity
+    private lateinit var userData: User
+    private val loginText = "teste@teste.com.br"
+    private val passwordText = "a9f28j2S"
 
     @Before
     fun setup() {
         activity = Robolectric.setupActivity(LoginActivity::class.java)
+        userData = User(loginText, passwordText)
+        activity.user.setText(userData.login)
+        activity.password.setText(userData.password)
     }
 
     @Test
-    fun onButtonClicked_shouldCall_validateData() {
+    fun onButtonClicked_calls_validateUserInput() {
         //GIVEN
-        val activityOutputSpy = spy<LoginInteractor>()
-        val button = activity.button
+        val validatorSpy = spy<LoginDataValidator>()
+        activity.validator = validatorSpy
 
         //WHEN
-        //activity.buttonClicked(button)
-        button.performClick()
+        activity.button.performClick()
 
         //THEN
-        verify(activityOutputSpy, times(1)).sendUserInputToValidation()
+        verify(validatorSpy, times(1)).validate(any())
     }
+
+
+//    @Test
+//    fun onButtonClicked_calls_sendUserInputToValidation_withCorrectData() {
+//        //GIVEN
+//        val activityOutputSpy = spy<LoginInteractor>()
+//        activity.output = activityOutputSpy
+//
+//        //WHEN
+//        activity.button.performClick()
+//
+//        //THEN
+//        verify(activityOutputSpy, times(1)).sendUserInputToValidation(
+//            argThat { login == loginText && password == passwordText })
+//    }
 
 //    @Test
 //    fun field_User_Validates_Email() {
@@ -82,15 +105,15 @@ class LoginActivityUnitTest {
 //    }
 
 
-    private inner class LoginActivityOutputSpy : LoginInteractorInput {
-
-        var fetchLoginDataIsCalled = false
-        var validateDataIsCalled = false
-        lateinit var requestCopy: LoginRequest
-
-        override fun fetchLoginData(request: LoginRequest) {
-            fetchLoginDataIsCalled = true
-            requestCopy = request
-        }
-    }
+//    private inner class LoginActivityOutputSpy : LoginInteractorInput {
+//
+//        var fetchLoginDataIsCalled = false
+//        var validateDataIsCalled = false
+//        lateinit var requestCopy: LoginRequest
+//
+//        override fun fetchLoginData(request: LoginRequest) {
+//            fetchLoginDataIsCalled = true
+//            requestCopy = request
+//        }
+//    }
 }

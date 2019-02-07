@@ -1,4 +1,4 @@
-package com.rodolfogusson.bankapp
+package com.rodolfogusson.bankapp.login
 
 interface LoginInteractorInput {
     fun fetchLoginData(request: LoginRequest)
@@ -21,10 +21,6 @@ class LoginInteractor : LoginInteractorInput {
 
         // Call the presenter
         output?.presentLoginData(response)
-    }
-
-    fun sendUserInputToValidation(){
-
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.rodolfogusson.bankapp
+package com.rodolfogusson.bankapp.login
 
 import java.lang.ref.WeakReference
 
@@ -17,5 +17,6 @@ object LoginConfigurator {
 
         activity.output = interactor
         activity.router = router
+        activity.validator = LoginDataValidator()
     }
 }

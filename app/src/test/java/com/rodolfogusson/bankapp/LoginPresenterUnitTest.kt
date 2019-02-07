@@ -1,7 +1,7 @@
 package com.rodolfogusson.bankapp
 
-import android.util.Log
-import org.junit.Assert
+import com.rodolfogusson.bankapp.login.LoginPresenter
+import com.rodolfogusson.bankapp.login.LoginResponse
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
