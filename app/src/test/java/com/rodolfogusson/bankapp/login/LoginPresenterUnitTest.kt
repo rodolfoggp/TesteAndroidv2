@@ -1,4 +1,4 @@
-package com.rodolfogusson.bankapp
+package com.rodolfogusson.bankapp.login
 
 import com.rodolfogusson.bankapp.login.LoginPresenter
 import com.rodolfogusson.bankapp.login.LoginResponse

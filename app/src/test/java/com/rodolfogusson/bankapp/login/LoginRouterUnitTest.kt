@@ -1,7 +1,5 @@
-package com.rodolfogusson.bankapp
+package com.rodolfogusson.bankapp.login
 
-import com.rodolfogusson.bankapp.login.LoginActivity
-import com.rodolfogusson.bankapp.login.LoginRouter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -23,7 +21,7 @@ class LoginRouterUnitTest {
         // When
         // Based on the position or some other data decide what is the next scene
 
-        val nextFragment = router.determineNextScreen(0)
+        val nextFragment = router.determineNextScreen()
 
         // Then
 

@@ -1,17 +1,14 @@
-package com.rodolfogusson.bankapp
+package com.rodolfogusson.bankapp.login
 
 import com.nhaarman.mockitokotlin2.*
-import com.rodolfogusson.bankapp.login.LoginActivity
-import com.rodolfogusson.bankapp.login.LoginDataValidator
-import com.rodolfogusson.bankapp.login.LoginInteractor
-import com.rodolfogusson.bankapp.login.User
 import kotlinx.android.synthetic.main.activity_login.*
-import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
 
 
 @RunWith(RobolectricTestRunner::class)
@@ -31,7 +28,12 @@ class LoginActivityUnitTest {
     }
 
     @Test
-    fun onButtonClicked_calls_validateUserInput() {
+    fun `activity is not null`(){
+        //TODO
+    }
+
+    @Test
+    fun `when button is clicked, user input is validated`() {
         //GIVEN
         val validatorSpy = spy<LoginDataValidator>()
         activity.validator = validatorSpy
@@ -41,6 +43,26 @@ class LoginActivityUnitTest {
 
         //THEN
         verify(validatorSpy, times(1)).validate(any())
+    }
+
+    @Test
+    fun `when user input is validated, the next activity is called`() {
+        //GIVEN
+        val validatorMock = mock<Validator>()
+        activity.validator = validatorMock
+        val nextActivity = activity.router.determineNextScreen()
+
+        //WHEN
+        whenever(validatorMock.validate(any())).thenReturn(true)
+        activity.button.performClick()
+
+        //THEN
+        val shadowActivity = shadowOf(activity)
+        assertNotNull("Activity is null", shadowActivity)
+        val intent = shadowActivity.nextStartedActivity
+        assertNotNull("Intent is null", intent)
+        val shadowIntent = shadowOf(intent)
+        assertEquals(nextActivity::class.java.name, shadowIntent.intentClass.name)
     }
 
 

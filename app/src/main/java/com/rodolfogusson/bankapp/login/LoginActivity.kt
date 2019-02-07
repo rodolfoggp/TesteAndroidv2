@@ -1,5 +1,6 @@
 package com.rodolfogusson.bankapp.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,7 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
 
     lateinit var output: LoginInteractorInput
     lateinit var router: LoginRouter
-    lateinit var validator: LoginDataValidator
+    lateinit var validator: Validator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,12 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
 
     fun buttonClicked(v: View) {
         val userInfo = User(user.text.toString(), password.text.toString())
-        validator.validate(userInfo)
+        if (validator.validate(userInfo)) goToNextActitivy()
+    }
+
+    fun goToNextActitivy() {
+        val nextActivity = router.determineNextScreen()
+        startActivity(Intent(this, nextActivity::class.java))
     }
 
     companion object {
