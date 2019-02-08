@@ -45,6 +45,7 @@ class LoginActivityUnitTest {
         verify(validatorSpy, times(1)).validate(any())
     }
 
+    //TODO: Break in two (after validation, do login; after login, call next activity)
     @Test
     fun `when user input is validated successfully, the next activity is called`() {
         //GIVEN
