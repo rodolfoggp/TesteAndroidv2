@@ -33,9 +33,9 @@ class LoginActivityUnitTest {
     }
 
     @Test
-    fun `when button is clicked, user input is validated`() {
+    fun `when button is clicked, validation is called`() {
         //GIVEN
-        val validatorSpy = spy<LoginDataValidator>()
+        val validatorSpy = spy<Validator>()
         activity.validator = validatorSpy
 
         //WHEN
@@ -45,27 +45,67 @@ class LoginActivityUnitTest {
         verify(validatorSpy, times(1)).validate(any())
     }
 
-    //TODO: Break in two (after validation, do login; after login, call next activity)
     @Test
-    fun `when user input is validated successfully, the next activity is called`() {
+    fun `when button is clicked and validation is successful, sendLoginRequest is called`() {
         //GIVEN
         val validatorMock = mock<Validator>()
+        val interactorSpy = spy<LoginInteractorInput>()
         activity.validator = validatorMock
-        val nextActivity = activity.router.determineNextScreen()
+        activity.output = interactorSpy
 
         //WHEN
         whenever(validatorMock.validate(any())).thenReturn(true)
         activity.button.performClick()
 
         //THEN
+        verify(interactorSpy, times(1)).sendLoginRequest(any())
+    }
+
+    @Test
+    fun `button click calls sendLoginRequest with correct data`() {
+        //GIVEN
+        val validatorMock = mock<Validator>()
+        val interactorSpy = spy<LoginInteractorInput>()
+        activity.validator = validatorMock
+        activity.output = interactorSpy
+
+        //WHEN
+        whenever(validatorMock.validate(any())).thenReturn(true)
+        activity.button.performClick()
+
+        //THEN
+        verify(interactorSpy).sendLoginRequest(
+            argThat { this.login == loginText && this.password == passwordText })
+    }
+
+    @Test
+    fun `when login was successful, the next activity is called`() {
+        //GIVEN
+        val nextActivity = activity.router.determineNextScreen()
+
+        //WHEN
+        activity.onLoginSuccessful()
+
+        //THEN
         val shadowActivity = shadowOf(activity)
-        assertNotNull("Activity is null", shadowActivity)
         val intent = shadowActivity.nextStartedActivity
-        assertNotNull("Intent is null", intent)
+        assertNotNull(intent)
         val shadowIntent = shadowOf(intent)
         assertEquals(nextActivity::class.java.name, shadowIntent.intentClass.name)
     }
 
+    @Test
+    fun `onCreate calls fetchLastSavedUser`() {
+        //GIVEN
+        val interactorSpy = spy<LoginInteractorInput>()
+        activity.output = interactorSpy
+
+        //WHEN
+        activity.fetchUserData()
+
+        //THEN
+        verify(interactorSpy, times(1)).fetchLastSavedUser()
+    }
 
 //    @Test
 //    fun onButtonClicked_calls_sendUserInputToValidation_withCorrectData() {

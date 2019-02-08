@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 interface LoginActivityInput {
     fun displayLoginData(viewModel: LoginViewModel)
+    fun onLoginSuccessful()
 }
 
 class LoginActivity : AppCompatActivity(), LoginActivityInput {
@@ -21,15 +22,11 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         LoginConfigurator.configureActivity(this)
-        fetchData()
+        fetchUserData()
     }
 
-    fun fetchData() {
-        // create Request and set the needed input
-        val request = LoginRequest()
-
-        // Call the output to fetch the data
-        output.fetchLoginData(request)
+    fun fetchUserData() {
+        output.fetchLastSavedUser()
     }
 
     override fun displayLoginData(viewModel: LoginViewModel) {
@@ -37,15 +34,20 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
         // Deal with the data, update the states, ui etc..
     }
 
-    fun buttonClicked(v: View) {
-        val userInfo = User(user.text.toString(), password.text.toString())
-        if (validator.validate(userInfo)) goToNextActitivy()
-    }
-
-    fun goToNextActitivy() {
+    override fun onLoginSuccessful() {
         val nextActivity = router.determineNextScreen()
         startActivity(Intent(this, nextActivity::class.java))
     }
+
+    fun buttonClicked(v: View) {
+        val user = User(user.text.toString(), password.text.toString())
+        if (validator.validate(user)) output.sendLoginRequest(user)
+    }
+
+//    fun goToNextActitivy() {
+//        val nextActivity = router.determineNextScreen()
+//        startActivity(Intent(this, nextActivity::class.java))
+//    }
 
     companion object {
         const val TAG = "LoginActivity"

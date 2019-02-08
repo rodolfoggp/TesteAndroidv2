@@ -1,7 +1,8 @@
 package com.rodolfogusson.bankapp.login
 
 interface LoginInteractorInput {
-    fun fetchLoginData(request: LoginRequest)
+    fun sendLoginRequest(user: User)
+    fun fetchLastSavedUser()
 }
 
 class LoginInteractor : LoginInteractorInput {
@@ -12,16 +13,23 @@ class LoginInteractor : LoginInteractorInput {
             return field ?: LoginWorker()
         }
 
-    override fun fetchLoginData(request: LoginRequest) {
-        // Log.d(TAG, "In method fetchLoginData")
-        val response = LoginResponse()
+    override fun sendLoginRequest(user: User) {
 
-        // Call the workers
-        // workerInput.someWork()
-
-        // Call the presenter
-        output?.presentLoginData(response)
     }
+
+    override fun fetchLastSavedUser() {
+
+    }
+//    override fun fetchLoginData(request: LoginRequest) {
+//        // Log.d(TAG, "In method fetchLoginData")
+//        val response = LoginResponse()
+//
+//        // Call the workers
+//        // workerInput.someWork()
+//
+//        // Call the presenter
+//        output?.presentLoginData(response)
+//    }
 
     companion object {
         const val TAG = "LoginInteractor"
