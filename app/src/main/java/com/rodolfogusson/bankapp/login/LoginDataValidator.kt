@@ -1,13 +1,13 @@
 package com.rodolfogusson.bankapp.login
 
 interface Validator {
-    fun validate(user: User): Boolean
+    fun validate(loginData: LoginData): Boolean
 }
 
 class LoginDataValidator : Validator{
 
-    override fun validate(user: User): Boolean {
-        return validateLogin(user.login) && validatePassword(user.password)
+    override fun validate(loginData: LoginData): Boolean {
+        return validateLogin(loginData.login) && validatePassword(loginData.password)
     }
 
     private fun validateLogin(login: String): Boolean {

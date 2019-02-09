@@ -2,7 +2,6 @@ package com.rodolfogusson.bankapp.login
 
 import com.rodolfogusson.bankapp.login.LoginInteractor
 import com.rodolfogusson.bankapp.login.LoginPresenterInput
-import com.rodolfogusson.bankapp.login.LoginRequest
 import com.rodolfogusson.bankapp.login.LoginResponse
 import org.junit.Assert
 import org.junit.Before

@@ -21,7 +21,7 @@ class LoginDataValidatorUnitTest {
     @Test
     fun `a valid CPF should be valid`() {
         //WHEN
-        val valid = validator.validate(User(validCPF, validPassword))
+        val valid = validator.validate(LoginData(validCPF, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -33,7 +33,7 @@ class LoginDataValidatorUnitTest {
         val validCPFDotsDash = "529.982.247-25"
 
         //WHEN
-        val valid = validator.validate(User(validCPFDotsDash, validPassword))
+        val valid = validator.validate(LoginData(validCPFDotsDash, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -46,9 +46,9 @@ class LoginDataValidatorUnitTest {
         val cpf10 = "1234567890"
         val cpf0 = ""
 
-        val user1 = User(cpf12, validPassword)
-        val user2 = User(cpf10, validPassword)
-        val user3 = User(cpf0, validPassword)
+        val user1 = LoginData(cpf12, validPassword)
+        val user2 = LoginData(cpf10, validPassword)
+        val user3 = LoginData(cpf0, validPassword)
 
         //WHEN
         val cpf12isValid = validator.validate(user1)
@@ -69,8 +69,8 @@ class LoginDataValidatorUnitTest {
         val invalidCPF2 = "529.982.A47-25"
 
         //WHEN
-        val isValidCPF1 = validator.validate(User(invalidCPF1, validPassword))
-        val isValidCPF2 = validator.validate(User(invalidCPF2, validPassword))
+        val isValidCPF1 = validator.validate(LoginData(invalidCPF1, validPassword))
+        val isValidCPF2 = validator.validate(LoginData(invalidCPF2, validPassword))
 
         //THEN
         assertFalse(isValidCPF1)
@@ -83,7 +83,7 @@ class LoginDataValidatorUnitTest {
         val cpf = "11111111111"
 
         //WHEN
-        val valid = validator.validate(User(cpf, validPassword))
+        val valid = validator.validate(LoginData(cpf, validPassword))
 
         //THEN
         assertFalse(valid)
@@ -95,7 +95,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "email@domain.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -107,7 +107,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "email@subdomain.domain.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -119,7 +119,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "firstname-lastname@domain.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -131,7 +131,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "firstname.lastname@domain.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -143,7 +143,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "email@[123.123.123.123]"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -155,7 +155,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "plainaddress"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertFalse(valid)
@@ -167,7 +167,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "#@%^%#\\$@#\\$@#.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertFalse(valid)
@@ -179,7 +179,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "@domain.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertFalse(valid)
@@ -191,7 +191,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "email.domain.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertFalse(valid)
@@ -203,7 +203,7 @@ class LoginDataValidatorUnitTest {
         val validEmail = "email..email@domain.com"
 
         //WHEN
-        val valid = validator.validate(User(validEmail, validPassword))
+        val valid = validator.validate(LoginData(validEmail, validPassword))
 
         //THEN
         assertFalse(valid)
@@ -212,7 +212,7 @@ class LoginDataValidatorUnitTest {
     @Test
     fun `a password with at least 1 capital letter, 1 special character and 1 alphanumeric character should be valid`() {
         //WHEN
-        val valid = validator.validate(User(validCPF, validPassword))
+        val valid = validator.validate(LoginData(validCPF, validPassword))
 
         //THEN
         assertTrue(valid)
@@ -224,7 +224,7 @@ class LoginDataValidatorUnitTest {
         val password = "a&a"
 
         //WHEN
-        val valid = validator.validate(User(validCPF, password))
+        val valid = validator.validate(LoginData(validCPF, password))
 
         //THEN
         assertFalse(valid)
@@ -236,7 +236,7 @@ class LoginDataValidatorUnitTest {
         val password = "abc123ABC"
 
         //WHEN
-        val valid = validator.validate(User(validCPF, password))
+        val valid = validator.validate(LoginData(validCPF, password))
 
         //THEN
         assertFalse(valid)
@@ -248,7 +248,7 @@ class LoginDataValidatorUnitTest {
         val password = "&#$&$%"
 
         //WHEN
-        val valid = validator.validate(User(validCPF, password))
+        val valid = validator.validate(LoginData(validCPF, password))
 
         //THEN
         assertFalse(valid)

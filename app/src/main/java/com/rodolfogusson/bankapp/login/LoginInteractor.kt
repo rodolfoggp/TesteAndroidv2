@@ -1,7 +1,7 @@
 package com.rodolfogusson.bankapp.login
 
 interface LoginInteractorInput {
-    fun sendLoginRequest(user: User)
+    fun sendLoginRequest(loginData: LoginData)
     fun fetchLastSavedUser()
 }
 
@@ -13,7 +13,7 @@ class LoginInteractor : LoginInteractorInput {
             return field ?: LoginWorker()
         }
 
-    override fun sendLoginRequest(user: User) {
+    override fun sendLoginRequest(loginData: LoginData) {
 
     }
 

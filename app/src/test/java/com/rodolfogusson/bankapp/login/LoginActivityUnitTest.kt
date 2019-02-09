@@ -15,16 +15,14 @@ import org.robolectric.Shadows.shadowOf
 class LoginActivityUnitTest {
 
     private lateinit var activity: LoginActivity
-    private lateinit var userData: User
+    private lateinit var loginData: LoginData
     private val loginText = "teste@teste.com.br"
     private val passwordText = "a9f28j2S"
 
     @Before
     fun setup() {
         activity = Robolectric.setupActivity(LoginActivity::class.java)
-        userData = User(loginText, passwordText)
-        activity.user.setText(userData.login)
-        activity.password.setText(userData.password)
+        loginData = LoginData(loginText, passwordText)
     }
 
     @Test
@@ -68,6 +66,8 @@ class LoginActivityUnitTest {
         val interactorSpy = spy<LoginInteractorInput>()
         activity.validator = validatorMock
         activity.output = interactorSpy
+        activity.user.setText(loginText)
+        activity.password.setText(passwordText)
 
         //WHEN
         whenever(validatorMock.validate(any())).thenReturn(true)
@@ -107,76 +107,29 @@ class LoginActivityUnitTest {
         verify(interactorSpy, times(1)).fetchLastSavedUser()
     }
 
-//    @Test
-//    fun onButtonClicked_calls_sendUserInputToValidation_withCorrectData() {
-//        //GIVEN
-//        val activityOutputSpy = spy<LoginInteractor>()
-//        activity.output = activityOutputSpy
-//
-//        //WHEN
-//        activity.button.performClick()
-//
-//        //THEN
-//        verify(activityOutputSpy, times(1)).sendUserInputToValidation(
-//            argThat { login == loginText && password == passwordText })
-//    }
+    @Test
+    fun `when displayLastSavedUser is called, user field is correctly filled`() {
+        //GIVEN
+        val loginData = LoginData(loginText, passwordText)
+        val viewModel = LoginViewModel(loginData)
 
-//    @Test
-//    fun field_User_Validates_Email() {
-//        //Given
-//        val etUsername = activity.etUsername
-//        val emailText = "test@test.com"
-//
-//        //When
-//        etUsername.text = emailText
-//        activity.buttonClicked()
-//
-//        //Then
-//        Assert.assertTrue()
-//    }
+        //WHEN
+        activity.displayLastSavedUser(viewModel)
 
-//    @Test
-//    fun onCreate_shouldCall_fetchLoginData() {
-//        // Given
-//        val activityOutputSpy = LoginActivityOutputSpy()
-//
-//        // It must have called the onCreate earlier,
-//        // we are injecting the mock and calling the fetchData to test our condition
-//        val activity = LoginActivity()
-//        activity.output = activityOutputSpy
-//
-//        // When
-//        activity.fetchData()
-//
-//        // Then
-//        Assert.assertTrue(activityOutputSpy.fetchLoginDataIsCalled)
-//    }
-//
-//    @Test
-//    fun onCreate_Calls_fetchLoginData_withCorrectData() {
-//        // Given
-//        val activityOutputSpy = LoginActivityOutputSpy()
-//        val activity = LoginActivity()
-//        activity.output = activityOutputSpy
-//
-//        // When
-//        activity.fetchData()
-//
-//        // Then
-//        Assert.assertNotNull(LoginActivity)
-//        // Assert.assertTrue(activityOutputSpy.requestCopy.isFutureTrips)
-//    }
+        //THEN
+        assertEquals(activity.user.text.toString(), loginText)
+    }
 
+    @Test
+    fun `when displayLastSavedUser is called, password field is correctly filled`() {
+        //GIVEN
+        val loginData = LoginData(loginText, passwordText)
+        val viewModel = LoginViewModel(loginData)
 
-//    private inner class LoginActivityOutputSpy : LoginInteractorInput {
-//
-//        var fetchLoginDataIsCalled = false
-//        var validateDataIsCalled = false
-//        lateinit var requestCopy: LoginRequest
-//
-//        override fun fetchLoginData(request: LoginRequest) {
-//            fetchLoginDataIsCalled = true
-//            requestCopy = request
-//        }
-//    }
+        //WHEN
+        activity.displayLastSavedUser(viewModel)
+
+        //THEN
+        assertEquals(activity.password.text.toString(), passwordText)
+    }
 }

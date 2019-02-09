@@ -8,7 +8,7 @@ import com.rodolfogusson.bankapp.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 interface LoginActivityInput {
-    fun displayLoginData(viewModel: LoginViewModel)
+    fun displayLastSavedUser(viewModel: LoginViewModel)
     fun onLoginSuccessful()
 }
 
@@ -29,9 +29,9 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
         output.fetchLastSavedUser()
     }
 
-    override fun displayLoginData(viewModel: LoginViewModel) {
-        // Log.d(TAG, "displayLoginData() called with: viewModel = [$viewModel]")
-        // Deal with the data, update the states, ui etc..
+    override fun displayLastSavedUser(viewModel: LoginViewModel) {
+        user.setText(viewModel.loginData.login)
+        password.setText(viewModel.loginData.password)
     }
 
     override fun onLoginSuccessful() {
@@ -40,14 +40,9 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
     }
 
     fun buttonClicked(v: View) {
-        val user = User(user.text.toString(), password.text.toString())
+        val user = LoginData(user.text.toString(), password.text.toString())
         if (validator.validate(user)) output.sendLoginRequest(user)
     }
-
-//    fun goToNextActitivy() {
-//        val nextActivity = router.determineNextScreen()
-//        startActivity(Intent(this, nextActivity::class.java))
-//    }
 
     companion object {
         const val TAG = "LoginActivity"
