@@ -30,8 +30,8 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
     }
 
     override fun displayLastSavedUser(viewModel: LoginViewModel) {
-        user.setText(viewModel.loginData.login)
-        password.setText(viewModel.loginData.password)
+        userEditText.setText(viewModel.loginData.login)
+        passwordEditText.setText(viewModel.loginData.password)
     }
 
     override fun onLoginSuccessful() {
@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
     }
 
     fun buttonClicked(v: View) {
-        val user = LoginData(user.text.toString(), password.text.toString())
+        val user = LoginData(userEditText.text.toString(), passwordEditText.text.toString())
         if (validator.validate(user)) output.sendLoginRequest(user)
     }
 

@@ -66,8 +66,8 @@ class LoginActivityUnitTest {
         val interactorSpy = spy<LoginInteractorInput>()
         activity.validator = validatorMock
         activity.output = interactorSpy
-        activity.user.setText(loginText)
-        activity.password.setText(passwordText)
+        activity.userEditText.setText(loginText)
+        activity.passwordEditText.setText(passwordText)
 
         //WHEN
         whenever(validatorMock.validate(any())).thenReturn(true)
@@ -117,7 +117,7 @@ class LoginActivityUnitTest {
         activity.displayLastSavedUser(viewModel)
 
         //THEN
-        assertEquals(activity.user.text.toString(), loginText)
+        assertEquals(activity.userEditText.text.toString(), loginText)
     }
 
     @Test
@@ -130,6 +130,6 @@ class LoginActivityUnitTest {
         activity.displayLastSavedUser(viewModel)
 
         //THEN
-        assertEquals(activity.password.text.toString(), passwordText)
+        assertEquals(activity.passwordEditText.text.toString(), passwordText)
     }
 }

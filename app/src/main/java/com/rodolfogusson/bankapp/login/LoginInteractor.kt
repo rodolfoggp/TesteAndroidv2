@@ -1,12 +1,16 @@
 package com.rodolfogusson.bankapp.login
 
+import androidx.test.espresso.idling.CountingIdlingResource
+
 interface LoginInteractorInput {
     fun sendLoginRequest(loginData: LoginData)
     fun fetchLastSavedUser()
+    val idlingResource: CountingIdlingResource
 }
 
 class LoginInteractor : LoginInteractorInput {
 
+    override val idlingResource = CountingIdlingResource("loginRequest")
     var output: LoginPresenterInput? = null
     var workerInput: LoginWorkerInput? = null
         get() {
