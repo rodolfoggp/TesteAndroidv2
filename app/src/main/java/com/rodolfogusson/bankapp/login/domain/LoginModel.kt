@@ -6,6 +6,8 @@ data class LoginViewModel(val loginData: LoginData)
 
 class LoginResponse{}
 
+class LoginValidationError
+
 class LoginRequest{} //todo: USE this class
 
 //class User == LoginResponse

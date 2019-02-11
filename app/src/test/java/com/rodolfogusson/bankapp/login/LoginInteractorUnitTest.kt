@@ -1,13 +1,12 @@
 package com.rodolfogusson.bankapp.login
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.bankapp.login.data.LoginRepositoryInput
 import com.rodolfogusson.bankapp.login.domain.LoginData
-import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
-import com.rodolfogusson.bankapp.login.domain.Validator
+import com.rodolfogusson.bankapp.login.domain.LoginDataValidatorInput
+import com.rodolfogusson.bankapp.login.domain.Validation
 import com.rodolfogusson.bankapp.login.interactor.LoginInteractor
+import com.rodolfogusson.bankapp.login.presentation.LoginPresenterInput
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,6 +16,7 @@ import org.robolectric.RobolectricTestRunner
 class LoginInteractorUnitTest {
 
     private lateinit var interactor: LoginInteractor
+    private val fakeLoginData = LoginData("","")
 
     @Before
     fun setup() {
@@ -26,19 +26,50 @@ class LoginInteractorUnitTest {
     @Test
     fun `when sendLoginRequest is called, login data is validated`() {
         //GIVEN
-        val validatorSpy = spy<Validator>()
-        val fakeLoginData = LoginData("","")
-        interactor.validator = validatorSpy
+        val validatorMock = mock<LoginDataValidatorInput>()
+        val repositoryMock = mock<LoginRepositoryInput>()
+        interactor.validator = validatorMock
+        interactor.repository = repositoryMock
 
         //WHEN
+        whenever(validatorMock.validate(any())).thenReturn(Validation(true, ArrayList()))
         interactor.sendLoginRequest(fakeLoginData)
 
         //THEN
-        verify(validatorSpy, times(1)).validate(any())
+        verify(validatorMock, times(1)).validate(any())
     }
 
-//    @Test
-//    fun `when login data is valid, `
+    @Test
+    fun `when sendLoginRequest is called and login data is valid, a login request is sent`() {
+        //GIVEN
+        val validatorMock = mock<LoginDataValidatorInput>()
+        val repositorySpy = spy<LoginRepositoryInput>()
+        interactor.validator = validatorMock
+        interactor.repository = repositorySpy
+
+        //WHEN
+        whenever(validatorMock.validate(any())).thenReturn(Validation(true, ArrayList()))
+        interactor.sendLoginRequest(fakeLoginData)
+
+        //THEN
+        verify(repositorySpy, times(1)).login(any())
+    }
+
+    @Test
+    fun `when login data validation fails, presenter calls sendValidationError`() {
+        //GIVEN
+        val validatorMock = mock<LoginDataValidatorInput>()
+        val presenterSpy = spy<LoginPresenterInput>()
+        interactor.validator = validatorMock
+        interactor.output = presenterSpy
+
+        //WHEN
+        whenever(validatorMock.validate(any())).thenReturn(Validation(false, ArrayList()))
+        interactor.sendLoginRequest(fakeLoginData)
+
+        //THEN
+        verify(presenterSpy, times(1)).sendValidationError(any())
+    }
 
 //    @Test
 //    fun `fetchLastSavedUser gets the user from UserRepository`() {
@@ -61,7 +92,7 @@ class LoginInteractorUnitTest {
 //
 //        // Then
 //        Assert.assertTrue(
-//            "When the valid input is passed to LoginInteractor "
+//            "When the isValid input is passed to LoginInteractor "
 //                    + "Then presentLoginData should be called",
 //            presenterInputSpy.presentLoginDataIsCalled
 //        )

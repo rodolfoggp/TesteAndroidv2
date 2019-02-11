@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.rodolfogusson.bankapp.R
 import com.rodolfogusson.bankapp.login.domain.LoginData
 import com.rodolfogusson.bankapp.login.domain.LoginViewModel
-import com.rodolfogusson.bankapp.login.domain.Validator
 import com.rodolfogusson.bankapp.login.interactor.LoginInteractorInput
 import kotlinx.android.synthetic.main.activity_login.*
 

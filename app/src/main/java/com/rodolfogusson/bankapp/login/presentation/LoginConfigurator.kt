@@ -14,10 +14,8 @@ object LoginConfigurator {
         val presenter = LoginPresenter()
         presenter.output = WeakReference(activity)
 
-        val validator = LoginDataValidator()
         val interactor = LoginInteractor()
         interactor.output = presenter
-        interactor.validator = validator
 
         activity.output = interactor
         activity.router = router

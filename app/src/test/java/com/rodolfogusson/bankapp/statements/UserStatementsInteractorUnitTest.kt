@@ -22,7 +22,7 @@ class UserStatementsInteractorUnitTest {
 
         // Then
         Assert.assertTrue(
-            "When the valid input is passed to UserStatementsInteractor "
+            "When the isValid input is passed to UserStatementsInteractor "
                     + "Then presentUserStatementsData should be called",
             presenterInputSpy.presentUserStatementsDataIsCalled
         )

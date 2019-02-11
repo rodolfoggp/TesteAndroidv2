@@ -23,7 +23,7 @@ class LoginPresenterUnitTest {
         presenter.presentLoginData(response)
 
         // Then
-        // Assert.assertTrue("When the valid input is passed to presenter" +
+        // Assert.assertTrue("When the isValid input is passed to presenter" +
         //        "Then displayLastSavedUser should be called",
         //         homeFragmentInputSpy.isDisplayHomeMetaDataCalled)
     }

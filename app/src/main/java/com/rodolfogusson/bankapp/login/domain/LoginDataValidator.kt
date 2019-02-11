@@ -1,13 +1,34 @@
 package com.rodolfogusson.bankapp.login.domain
 
-interface Validator {
-    fun validate(loginData: LoginData): Boolean
+import com.rodolfogusson.bankapp.login.domain.Validation.*
+
+interface LoginDataValidatorInput {
+    fun validate(loginData: LoginData): Validation
 }
 
-class LoginDataValidator : Validator {
+class Validation(val isValid: Boolean, val error: ArrayList<ValidationError>) {
+    enum class ValidationError {
+        InvalidEmailOrCPF, InvalidPassword
+    }
+}
 
-    override fun validate(loginData: LoginData): Boolean {
-        return validateLogin(loginData.login) && validatePassword(loginData.password)
+class LoginDataValidator : LoginDataValidatorInput {
+
+    override fun validate(loginData: LoginData): Validation {
+        var valid = true
+        var errors = ArrayList<ValidationError>()
+
+        if (!validateLogin(loginData.login)) {
+            valid = false
+            errors.add(ValidationError.InvalidEmailOrCPF)
+        }
+
+        if (!validatePassword(loginData.password)) {
+            valid = false
+            errors.add(ValidationError.InvalidPassword)
+        }
+
+        return Validation(valid, errors)
     }
 
     private fun validateLogin(login: String): Boolean {

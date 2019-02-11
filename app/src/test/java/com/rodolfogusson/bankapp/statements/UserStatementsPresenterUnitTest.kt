@@ -23,7 +23,7 @@ class UserStatementsPresenterUnitTest {
         presenter.presentUserStatementsData(response)
 
         // Then
-        // Assert.assertTrue("When the valid input is passed to presenter" +
+        // Assert.assertTrue("When the isValid input is passed to presenter" +
         //        "Then displayUserStatementsData should be called",
         //         homeActivityInputSpy.isDisplayHomeMetaDataCalled)
     }
