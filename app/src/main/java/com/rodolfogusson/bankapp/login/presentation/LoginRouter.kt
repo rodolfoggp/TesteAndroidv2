@@ -1,7 +1,5 @@
-package com.rodolfogusson.bankapp.login
+package com.rodolfogusson.bankapp.login.presentation
 
-import android.view.View
-import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 
 import java.lang.ref.WeakReference
@@ -13,7 +11,7 @@ interface LoginRouterInput {
 
 class LoginRouter : LoginRouterInput {
 
-    var fragment: WeakReference<LoginActivity>? = null
+    var activity: WeakReference<LoginActivity>? = null
 
     override fun determineNextScreen(): AppCompatActivity {
         // Based on the position or some other data decide what is the next scene
@@ -38,8 +36,8 @@ class LoginRouter : LoginRouterInput {
 //        // + "view = [$view], position = [$position], id = [$id]")
 //        val nextFragment = determineNextScreen(position)
 //        passDataToNextScene(position, nextFragment)
-//        // Ask the activity to show the next fragment. eg ..
-//        // fragment?.get()?.homeFragmentListener?.startPastTripFragment(nextFragment)
+//        // Ask the activity to show the next activity. eg ..
+//        // activity?.get()?.homeFragmentListener?.startPastTripFragment(nextFragment)
 //
 //    }
 

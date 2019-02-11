@@ -1,6 +1,10 @@
 package com.rodolfogusson.bankapp.login
 
 import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.bankapp.login.domain.LoginData
+import com.rodolfogusson.bankapp.login.domain.LoginViewModel
+import com.rodolfogusson.bankapp.login.interactor.LoginInteractorInput
+import com.rodolfogusson.bankapp.login.presentation.LoginActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.junit.Assert.*
 import org.junit.Before
@@ -31,28 +35,12 @@ class LoginActivityUnitTest {
     }
 
     @Test
-    fun `when button is clicked, validation is called`() {
+    fun `when button is clicked, sendLoginRequest is called`() {
         //GIVEN
-        val validatorSpy = spy<Validator>()
-        activity.validator = validatorSpy
-
-        //WHEN
-        activity.button.performClick()
-
-        //THEN
-        verify(validatorSpy, times(1)).validate(any())
-    }
-
-    @Test
-    fun `when button is clicked and validation is successful, sendLoginRequest is called`() {
-        //GIVEN
-        val validatorMock = mock<Validator>()
         val interactorSpy = spy<LoginInteractorInput>()
-        activity.validator = validatorMock
         activity.output = interactorSpy
 
         //WHEN
-        whenever(validatorMock.validate(any())).thenReturn(true)
         activity.button.performClick()
 
         //THEN
@@ -62,15 +50,12 @@ class LoginActivityUnitTest {
     @Test
     fun `button click calls sendLoginRequest with correct data`() {
         //GIVEN
-        val validatorMock = mock<Validator>()
         val interactorSpy = spy<LoginInteractorInput>()
-        activity.validator = validatorMock
         activity.output = interactorSpy
         activity.userEditText.setText(loginText)
         activity.passwordEditText.setText(passwordText)
 
         //WHEN
-        whenever(validatorMock.validate(any())).thenReturn(true)
         activity.button.performClick()
 
         //THEN

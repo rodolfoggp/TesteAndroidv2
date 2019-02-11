@@ -1,5 +1,8 @@
 package com.rodolfogusson.bankapp.login
 
+import com.rodolfogusson.bankapp.login.domain.LoginData
+import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
+import com.rodolfogusson.bankapp.login.domain.Validator
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -33,7 +36,12 @@ class LoginDataValidatorUnitTest {
         val validCPFDotsDash = "529.982.247-25"
 
         //WHEN
-        val valid = validator.validate(LoginData(validCPFDotsDash, validPassword))
+        val valid = validator.validate(
+            LoginData(
+                validCPFDotsDash,
+                validPassword
+            )
+        )
 
         //THEN
         assertTrue(valid)
@@ -69,8 +77,18 @@ class LoginDataValidatorUnitTest {
         val invalidCPF2 = "529.982.A47-25"
 
         //WHEN
-        val isValidCPF1 = validator.validate(LoginData(invalidCPF1, validPassword))
-        val isValidCPF2 = validator.validate(LoginData(invalidCPF2, validPassword))
+        val isValidCPF1 = validator.validate(
+            LoginData(
+                invalidCPF1,
+                validPassword
+            )
+        )
+        val isValidCPF2 = validator.validate(
+            LoginData(
+                invalidCPF2,
+                validPassword
+            )
+        )
 
         //THEN
         assertFalse(isValidCPF1)

@@ -1,10 +1,14 @@
-package com.rodolfogusson.bankapp.login
+package com.rodolfogusson.bankapp.login.presentation
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.rodolfogusson.bankapp.R
+import com.rodolfogusson.bankapp.login.domain.LoginData
+import com.rodolfogusson.bankapp.login.domain.LoginViewModel
+import com.rodolfogusson.bankapp.login.domain.Validator
+import com.rodolfogusson.bankapp.login.interactor.LoginInteractorInput
 import kotlinx.android.synthetic.main.activity_login.*
 
 interface LoginActivityInput {
@@ -16,7 +20,6 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
 
     lateinit var output: LoginInteractorInput
     lateinit var router: LoginRouter
-    lateinit var validator: Validator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +43,12 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
     }
 
     fun buttonClicked(v: View) {
-        val user = LoginData(userEditText.text.toString(), passwordEditText.text.toString())
-        if (validator.validate(user)) output.sendLoginRequest(user)
+        val loginData =
+            LoginData(
+                userEditText.text.toString(),
+                passwordEditText.text.toString()
+            )
+        output.sendLoginRequest(loginData)
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.rodolfogusson.bankapp.login
 
+import com.rodolfogusson.bankapp.login.presentation.LoginActivity
+import com.rodolfogusson.bankapp.login.presentation.LoginRouter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -16,7 +18,7 @@ class LoginRouterUnitTest {
         val router = LoginRouter()
         val fragment = LoginActivity()
         fragment.router = router
-        router.fragment = WeakReference(fragment)
+        router.activity = WeakReference(fragment)
 
         // When
         // Based on the position or some other data decide what is the next scene

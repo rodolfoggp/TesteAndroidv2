@@ -1,5 +1,6 @@
-package com.rodolfogusson.bankapp.login
+package com.rodolfogusson.bankapp.login.presentation
 
+import com.rodolfogusson.bankapp.login.domain.LoginResponse
 import java.lang.ref.WeakReference
 
 interface LoginPresenterInput {

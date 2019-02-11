@@ -1,9 +1,13 @@
 package com.rodolfogusson.bankapp.login
 
-import com.rodolfogusson.bankapp.login.LoginInteractor
-import com.rodolfogusson.bankapp.login.LoginPresenterInput
-import com.rodolfogusson.bankapp.login.LoginResponse
-import org.junit.Assert
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.spy
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.rodolfogusson.bankapp.login.domain.LoginData
+import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
+import com.rodolfogusson.bankapp.login.domain.Validator
+import com.rodolfogusson.bankapp.login.interactor.LoginInteractor
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,11 +24,30 @@ class LoginInteractorUnitTest {
     }
 
     @Test
-    fun whenReceivingUserInput_validateLoginData_isCalled() {
+    fun `when sendLoginRequest is called, login data is validated`() {
         //GIVEN
-        //WHEN
+        val validatorSpy = spy<Validator>()
+        val fakeLoginData = LoginData("","")
+        interactor.validator = validatorSpy
 
+        //WHEN
+        interactor.sendLoginRequest(fakeLoginData)
+
+        //THEN
+        verify(validatorSpy, times(1)).validate(any())
     }
+
+//    @Test
+//    fun `when login data is valid, `
+
+//    @Test
+//    fun `fetchLastSavedUser gets the user from UserRepository`() {
+//        //WHEN
+//        interactor.fetchLastSavedUser()
+//
+//        //THEN
+//
+//    }
 
 //    @Test
 //    fun fetchLoginData_with_validInput_shouldCall_presentLoginData() {

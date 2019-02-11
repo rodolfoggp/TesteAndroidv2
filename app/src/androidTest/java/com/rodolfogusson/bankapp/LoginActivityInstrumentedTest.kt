@@ -1,7 +1,6 @@
 package com.rodolfogusson.bankapp
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.registerIdlingResources
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -13,7 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.rodolfogusson.bankapp.login.LoginActivity
+import com.rodolfogusson.bankapp.login.presentation.LoginActivity
 import com.rodolfogusson.bankapp.statements.UserStatementsActivity
 
 import org.junit.Test

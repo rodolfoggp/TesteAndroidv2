@@ -17,7 +17,7 @@ class UserStatementsInteractor : UserStatementsInteractorInput {
         val response = UserStatementsResponse()
 
         // Call the workers
-        // workerInput.someWork()
+        // repositoryInput.someWork()
 
         // Call the presenter
         output?.presentUserStatementsData(response)

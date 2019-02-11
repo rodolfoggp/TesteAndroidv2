@@ -1,10 +1,10 @@
-package com.rodolfogusson.bankapp.login
+package com.rodolfogusson.bankapp.login.domain
 
 interface Validator {
     fun validate(loginData: LoginData): Boolean
 }
 
-class LoginDataValidator : Validator{
+class LoginDataValidator : Validator {
 
     override fun validate(loginData: LoginData): Boolean {
         return validateLogin(loginData.login) && validatePassword(loginData.password)

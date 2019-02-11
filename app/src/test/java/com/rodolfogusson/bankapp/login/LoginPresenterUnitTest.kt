@@ -1,7 +1,7 @@
 package com.rodolfogusson.bankapp.login
 
-import com.rodolfogusson.bankapp.login.LoginPresenter
-import com.rodolfogusson.bankapp.login.LoginResponse
+import com.rodolfogusson.bankapp.login.domain.LoginResponse
+import com.rodolfogusson.bankapp.login.presentation.LoginPresenter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
