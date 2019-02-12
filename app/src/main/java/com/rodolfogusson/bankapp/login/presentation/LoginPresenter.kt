@@ -4,22 +4,38 @@ import com.rodolfogusson.bankapp.login.domain.User
 import com.rodolfogusson.bankapp.login.domain.Validation
 import java.lang.ref.WeakReference
 
-interface LoginPresenterInput {
+interface LoginPresenterInput : LoginCallback, SavedUserCallback {
     fun presentSavedUser(user: User)
     fun presentValidationError(validation: Validation)
-    fun presentLoginResult(user: User)
+}
+
+interface LoginCallback {
+    fun onLoginSuccessful()
+    fun onLoginFailed(error: Throwable)
+}
+
+interface SavedUserCallback {
+    fun onSavedUserFetched(user: User)
 }
 
 class LoginPresenter : LoginPresenterInput {
-    override fun presentLoginResult(user: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     var output: WeakReference<LoginActivityInput>? = null
 
-    override fun presentSavedUser(user: User) {
+    override fun onLoginSuccessful() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun onLoginFailed(error: Throwable) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSavedUserFetched(user: User) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun presentSavedUser(user: User) {
+    }
 
     override fun presentValidationError(validation: Validation) {
     }

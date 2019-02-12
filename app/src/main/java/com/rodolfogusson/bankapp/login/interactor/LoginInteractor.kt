@@ -6,7 +6,6 @@ import com.rodolfogusson.bankapp.login.data.LoginRepositoryInput
 import com.rodolfogusson.bankapp.login.domain.LoginData
 import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
 import com.rodolfogusson.bankapp.login.domain.LoginDataValidatorInput
-import com.rodolfogusson.bankapp.login.domain.User
 import com.rodolfogusson.bankapp.login.presentation.LoginPresenterInput
 
 interface LoginInteractorInput {
@@ -18,37 +17,22 @@ interface LoginInteractorInput {
 class LoginInteractor : LoginInteractorInput {
 
     override val idlingResource = CountingIdlingResource("loginRequest")
-    var output: LoginPresenterInput? = null
+    lateinit var output: LoginPresenterInput
     var validator: LoginDataValidatorInput = LoginDataValidator()
     var repository: LoginRepositoryInput = LoginRepository()
 
     override fun sendLoginRequest(loginData: LoginData) {
         val validation = validator.validate(loginData)
         if (validation.isValid) {
-            repository.login(loginData, this::handleLogin)
+            repository.login(loginData, output)
         } else {
-            output?.presentValidationError(validation)
+            output.presentValidationError(validation)
         }
     }
 
-    fun handleLogin(user: User) {
-        output?.presentLoginResult(user)
-    }
-
     override fun fetchLastSavedUser() {
-        val user = repository.getLastSavedUser()
-        output?.presentSavedUser(user)
+        repository.getLastSavedUser(output)
     }
-//    override fun fetchLoginData(request: LoginRequest) {
-//        // Log.d(TAG, "In method fetchLoginData")
-//        val response = LoginResponse()
-//
-//        // Call the workers
-//        // repositoryInput.someWork()
-//
-//        // Call the presenter
-//        output?.presentLoginData(response)
-//    }
 
     companion object {
         const val TAG = "LoginInteractor"
