@@ -1,6 +1,7 @@
 package com.rodolfogusson.bankapp.login.interactor
 
 import androidx.test.espresso.idling.CountingIdlingResource
+import com.rodolfogusson.bankapp.login.data.LoginRepository
 import com.rodolfogusson.bankapp.login.data.LoginRepositoryInput
 import com.rodolfogusson.bankapp.login.domain.LoginData
 import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
@@ -18,7 +19,7 @@ class LoginInteractor : LoginInteractorInput {
     override val idlingResource = CountingIdlingResource("loginRequest")
     var output: LoginPresenterInput? = null
     var validator: LoginDataValidatorInput = LoginDataValidator()
-    lateinit var repository: LoginRepositoryInput/* = LoginRepository*/
+    var repository: LoginRepositoryInput = LoginRepository()/* = LoginRepository*/
 //        get() {
 //            return field ?: LoginRepository()
 //        }
@@ -28,12 +29,13 @@ class LoginInteractor : LoginInteractorInput {
         if (validation.isValid) {
             repository.login(loginData)
         } else {
-            output?.sendValidationError(validation)
+            output?.presentValidationError(validation)
         }
     }
 
     override fun fetchLastSavedUser() {
-
+        val user = repository.getLastSavedUser()
+        output?.presentSavedUser(user)
     }
 //    override fun fetchLoginData(request: LoginRequest) {
 //        // Log.d(TAG, "In method fetchLoginData")

@@ -44,7 +44,7 @@ class LoginActivityUnitTest {
         activity.button.performClick()
 
         //THEN
-        verify(interactorSpy, times(1)).sendLoginRequest(any())
+        verify(interactorSpy).sendLoginRequest(any())
     }
 
     @Test
@@ -89,7 +89,7 @@ class LoginActivityUnitTest {
         activity.fetchUserData()
 
         //THEN
-        verify(interactorSpy, times(1)).fetchLastSavedUser()
+        verify(interactorSpy).fetchLastSavedUser()
     }
 
     @Test

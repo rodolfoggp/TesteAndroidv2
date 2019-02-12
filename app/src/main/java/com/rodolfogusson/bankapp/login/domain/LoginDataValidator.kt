@@ -1,15 +1,9 @@
 package com.rodolfogusson.bankapp.login.domain
 
-import com.rodolfogusson.bankapp.login.domain.Validation.*
+import com.rodolfogusson.bankapp.login.domain.Validation.ValidationError
 
 interface LoginDataValidatorInput {
     fun validate(loginData: LoginData): Validation
-}
-
-class Validation(val isValid: Boolean, val error: ArrayList<ValidationError>) {
-    enum class ValidationError {
-        InvalidEmailOrCPF, InvalidPassword
-    }
 }
 
 class LoginDataValidator : LoginDataValidatorInput {
