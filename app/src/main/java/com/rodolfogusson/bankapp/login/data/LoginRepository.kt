@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 
 interface LoginRepositoryInput {
-    fun login(loginData: LoginData)
+    fun login(loginData: LoginData, handler: (User) -> Unit)
     fun getLastSavedUser(): User
 }
 
@@ -15,7 +15,7 @@ class LoginRepository : LoginRepositoryInput {
         return User()
     }
 
-    override fun login(loginData: LoginData) {
+    override fun login(loginData: LoginData, handler: (User) -> Unit) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

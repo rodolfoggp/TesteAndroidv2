@@ -18,7 +18,8 @@ import org.robolectric.RobolectricTestRunner
 class LoginInteractorUnitTest {
 
     private lateinit var interactor: LoginInteractor
-    private val fakeLoginData = LoginData("","")
+    private val loginDataMock = mock<LoginData>()
+    private val userMock = mock<User>()
 
     @Before
     fun setup() {
@@ -36,7 +37,7 @@ class LoginInteractorUnitTest {
         interactor.repository = repositoryMock
 
         //WHEN
-        interactor.sendLoginRequest(fakeLoginData)
+        interactor.sendLoginRequest(loginDataMock)
 
         //THEN
         verify(validatorMock).validate(any())
@@ -53,10 +54,53 @@ class LoginInteractorUnitTest {
         interactor.repository = repositorySpy
 
         //WHEN
-        interactor.sendLoginRequest(fakeLoginData)
+        interactor.sendLoginRequest(loginDataMock)
 
         //THEN
-        verify(repositorySpy).login(any())
+        verify(repositorySpy).login(any(), any())
+    }
+
+    @Test
+    fun `sendLoginRequest calls login request with correct data and handler`() {
+        //GIVEN
+        val repositorySpy = spy<LoginRepositoryInput>()
+        val validatorMock = mock<LoginDataValidatorInput> {
+            on { validate(any()) } doReturn Validation(true, ArrayList())
+        }
+        interactor.validator = validatorMock
+        interactor.repository = repositorySpy
+
+        //WHEN
+        interactor.sendLoginRequest(loginDataMock)
+
+        //THEN
+        verify(repositorySpy).login(argThat { this == loginDataMock }, argThat { this == interactor::handleLogin })
+    }
+
+    @Test
+    fun `handleLogin should call presentLoginResult`() {
+        //GIVEN
+        val presenterSpy = spy<LoginPresenterInput>()
+        interactor.output = presenterSpy
+
+        //WHEN
+        interactor.handleLogin(userMock)
+
+        //THEN
+        verify(presenterSpy).presentLoginResult(any())
+    }
+
+    @Test
+    fun `presentLoginResult is called with the right input`() {
+        //GIVEN
+        val presenterSpy = spy<LoginPresenterInput>()
+        interactor.output = presenterSpy
+
+        //WHEN
+        interactor.handleLogin(userMock)
+
+        //THEN
+        verify(presenterSpy).presentLoginResult(argThat { this == userMock })
     }
 
     @Test
@@ -70,7 +114,7 @@ class LoginInteractorUnitTest {
         interactor.output = presenterSpy
 
         //WHEN
-        interactor.sendLoginRequest(fakeLoginData)
+        interactor.sendLoginRequest(loginDataMock)
 
         //THEN
         verify(presenterSpy).presentValidationError(any())
@@ -88,7 +132,7 @@ class LoginInteractorUnitTest {
         interactor.output = presenterSpy
 
         //WHEN
-        interactor.sendLoginRequest(fakeLoginData)
+        interactor.sendLoginRequest(loginDataMock)
 
         //THEN
         verify(presenterSpy).presentValidationError(
@@ -112,7 +156,6 @@ class LoginInteractorUnitTest {
     fun `fetchLastSavedUser calls presentSavedUser`() {
         //GIVEN
         val presenterSpy = spy<LoginPresenterInput>()
-        val userMock = mock<User>()
         val repositoryMock = mock<LoginRepositoryInput> {
             on { getLastSavedUser() } doReturn userMock
         }
@@ -130,7 +173,6 @@ class LoginInteractorUnitTest {
     fun `when fetchLastSavedUser is called, the right user is passed to the presenter`() {
         //GIVEN
         val presenterSpy = spy<LoginPresenterInput>()
-        val userMock = mock<User>()
         val repositoryMock = mock<LoginRepositoryInput> {
             on { getLastSavedUser() } doReturn userMock
         }
