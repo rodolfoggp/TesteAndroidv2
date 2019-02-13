@@ -30,13 +30,11 @@ class LoginPresenterUnitTest {
     @Before
     fun setup() {
         presenter = LoginPresenter()
+        presenter.output = output
     }
 
     @Test
     fun `when onSavedUserFetched is called, the fetched user should be displayed in the activity`() {
-        //GIVEN
-        presenter.output = output
-
         //WHEN
         presenter.onSavedUserFetched(userMock)
 
@@ -46,9 +44,6 @@ class LoginPresenterUnitTest {
 
     @Test
     fun `when onSavedUserFetched is called, activity should receive the correct view model`() {
-        //GIVEN
-        presenter.output = output
-
         //WHEN
         presenter.onSavedUserFetched(userMock)
 
@@ -60,7 +55,6 @@ class LoginPresenterUnitTest {
     fun `when receiving a InvalidEmailOrCPF error, displayUserError should be called`(){
         //GIVEN
         val validation = Validation(false, arrayListOf(InvalidEmailOrCPF))
-        presenter.output = output
 
         //WHEN
         presenter.presentValidationErrors(validation)
@@ -73,7 +67,6 @@ class LoginPresenterUnitTest {
     fun `when receiving an InvalidEmailOrCPF error, displayUserError should receive user error id`(){
         //GIVEN
         val validation = Validation(false, arrayListOf(InvalidEmailOrCPF))
-        presenter.output = output
 
         //WHEN
         presenter.presentValidationErrors(validation)
@@ -86,7 +79,6 @@ class LoginPresenterUnitTest {
     fun `when receiving an InvalidPassword error, displayPasswordError should be called`(){
         //GIVEN
         val validation = Validation(false, arrayListOf(InvalidPassword))
-        presenter.output = output
 
         //WHEN
         presenter.presentValidationErrors(validation)
@@ -99,7 +91,6 @@ class LoginPresenterUnitTest {
     fun `when receiving an InvalidPassword error, displayPasswordError should receive password error id`(){
         //GIVEN
         val validation = Validation(false, arrayListOf(InvalidPassword))
-        presenter.output = output
 
         //WHEN
         presenter.presentValidationErrors(validation)
@@ -110,9 +101,6 @@ class LoginPresenterUnitTest {
 
     @Test
     fun `onLoginSuccessful should call navigateToNextActivity`() {
-        //GIVEN
-        presenter.output = output
-
         //WHEN
         presenter.onLoginSuccessful()
 
@@ -123,7 +111,6 @@ class LoginPresenterUnitTest {
     @Test
     fun `onLoginFailed should call displayLoginError`() {
         //GIVEN
-        presenter.output = output
         val errorMock = mock<Throwable>()
 
         //WHEN
@@ -136,7 +123,6 @@ class LoginPresenterUnitTest {
     @Test
     fun `presenter calls displayLoginError with the correct input`() {
         //GIVEN
-        presenter.output = output
         val errorMock = mock<Throwable>()
 
         //WHEN

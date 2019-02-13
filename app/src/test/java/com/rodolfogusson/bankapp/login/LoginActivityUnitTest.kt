@@ -1,6 +1,5 @@
 package com.rodolfogusson.bankapp.login
 
-import android.widget.TextView
 import com.nhaarman.mockitokotlin2.*
 import com.rodolfogusson.bankapp.R
 import com.rodolfogusson.bankapp.login.domain.LoginData

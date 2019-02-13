@@ -2,36 +2,38 @@ package com.rodolfogusson.bankapp.login
 
 import com.rodolfogusson.bankapp.login.presentation.LoginActivity
 import com.rodolfogusson.bankapp.login.presentation.LoginRouter
+import com.rodolfogusson.bankapp.statements.UserStatementsActivity
+import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows
 import java.lang.ref.WeakReference
 
 @RunWith(RobolectricTestRunner::class)
 class LoginRouterUnitTest {
 
+    private lateinit var router: LoginRouter
+    private lateinit var activity: LoginActivity
+
+    @Before
+    fun setup() {
+        router = LoginRouter()
+        activity = Robolectric.setupActivity(LoginActivity::class.java)
+        router.activity = WeakReference(activity)
+    }
+
     @Test
-    fun test_LoginRouter_determineNextScreen_when_Input_Is() {
-        // Given
-        // Setup Data
+    fun `determineNextScreen should return UserStatementsActivity`() {
+        //WHEN
+        val intent = router.determineNextScreen()
 
-        val router = LoginRouter()
-        val fragment = LoginActivity()
-        fragment.router = router
-        router.activity = WeakReference(fragment)
-
-        // When
-        // Based on the position or some other data decide what is the next scene
-
-        val nextFragment = router.determineNextScreen()
-
-        // Then
-
-        val nextFragmentName = nextFragment.javaClass.name
-        // Assert.assertEquals("When the some Data passed to LoginRouter" +
-        //        " Then next Fragment should be ...",
-        //        nextFragmentName,
-        //        SomeFragment::class.java.name)
+        //THEN
+        assertNotNull(intent)
+        val shadowIntent = Shadows.shadowOf(intent)
+        assertEquals(UserStatementsActivity::class.java.name, shadowIntent.intentClass.name)
     }
 
     companion object {
