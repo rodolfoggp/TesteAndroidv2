@@ -4,10 +4,11 @@ data class LoginData(
     val login: String,
     var password: String)
 
-data class LoginViewModel(
-    val loginData: LoginData? = null,
-    val userError: String? = null,
-    val passwordError: String? = null)
+//TODO: Remove viewmodel
+//data class LoginViewModel(
+//    val loginData: LoginData? = null,
+//    val userErrorId: Int? = null,
+//    val passwordErrorId: Int? = null)
 
 data class User(
     val userId: Int,

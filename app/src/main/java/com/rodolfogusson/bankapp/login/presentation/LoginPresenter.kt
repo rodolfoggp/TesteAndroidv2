@@ -1,7 +1,6 @@
 package com.rodolfogusson.bankapp.login.presentation
 
 import com.rodolfogusson.bankapp.R
-import com.rodolfogusson.bankapp.login.domain.LoginViewModel
 import com.rodolfogusson.bankapp.login.domain.User
 import com.rodolfogusson.bankapp.login.domain.Validation
 import com.rodolfogusson.bankapp.login.domain.Validation.ValidationError.*
@@ -33,8 +32,9 @@ class LoginPresenter : LoginPresenterInput {
     }
 
     override fun onSavedUserFetched(user: User) {
-        val viewModel = LoginViewModel(user.loginData)
-        output?.get()?.displayLastSavedUser(viewModel)
+        user.loginData?.let {
+            output?.get()?.displayLastSavedUser(it)
+        }
     }
 
     override fun presentValidationErrors(validation: Validation) {

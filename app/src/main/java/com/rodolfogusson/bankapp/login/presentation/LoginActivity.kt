@@ -6,12 +6,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.rodolfogusson.bankapp.R
 import com.rodolfogusson.bankapp.login.domain.LoginData
-import com.rodolfogusson.bankapp.login.domain.LoginViewModel
 import com.rodolfogusson.bankapp.login.interactor.LoginInteractorInput
 import kotlinx.android.synthetic.main.activity_login.*
 
 interface LoginActivityInput {
-    fun displayLastSavedUser(viewModel: LoginViewModel)
+    fun displayLastSavedUser(loginData: LoginData)
     fun displayUserError(messageId: Int)
     fun displayPasswordError(messageId: Int)
     fun onLoginSuccessful()
@@ -33,19 +32,17 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
         output.fetchLastSavedUser()
     }
 
-    override fun displayLastSavedUser(viewModel: LoginViewModel) {
-        userEditText.setText(viewModel.loginData?.login)
-        passwordEditText.setText(viewModel.loginData?.password)
+    override fun displayLastSavedUser(loginData: LoginData) {
+        userEditText.setText(loginData.login)
+        passwordEditText.setText(loginData.password)
     }
 
-    //TODO: Test this
     override fun displayUserError(messageId: Int) {
-
+        userError.setText(R.string.invalid_user_error)
     }
 
-    //TODO: Test this
     override fun displayPasswordError(messageId: Int) {
-
+        passwordError.setText(R.string.invalid_password_error)
     }
 
     override fun onLoginSuccessful() {
@@ -53,13 +50,15 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
         startActivity(Intent(this, nextActivity::class.java))
     }
 
-    fun buttonClicked(v: View) {
-        val loginData =
-            LoginData(
-                userEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
+    fun onLoginButtonClicked(v: View) {
+        clearFieldsErrors()
+        val loginData = LoginData(userEditText.text.toString(), passwordEditText.text.toString())
         output.sendLoginRequest(loginData)
+    }
+
+    fun clearFieldsErrors() {
+        userError.text = ""
+        passwordError.text = ""
     }
 
     companion object {

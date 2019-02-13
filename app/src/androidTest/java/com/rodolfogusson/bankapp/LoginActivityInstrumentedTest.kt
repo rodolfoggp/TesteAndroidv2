@@ -64,7 +64,7 @@ class LoginActivityInstrumentedTest {
         Intents.init()
         val loginRequest = activityRule.activity.output.idlingResource
         IdlingRegistry.getInstance().register(loginRequest)
-        onView(withId(R.id.button)).perform(click())
+        onView(withId(R.id.loginButton)).perform(click())
 
         //The application logs the user in, then the UserStatementsActivity is shown
         intended(hasComponent(UserStatementsActivity::class.java.name))

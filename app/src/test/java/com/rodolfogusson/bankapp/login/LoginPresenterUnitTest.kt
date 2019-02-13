@@ -1,11 +1,8 @@
 package com.rodolfogusson.bankapp.login
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.argThat
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import com.rodolfogusson.bankapp.R
-import com.rodolfogusson.bankapp.login.domain.LoginViewModel
+import com.rodolfogusson.bankapp.login.domain.LoginData
 import com.rodolfogusson.bankapp.login.domain.User
 import com.rodolfogusson.bankapp.login.domain.Validation
 import com.rodolfogusson.bankapp.login.domain.Validation.ValidationError.*
@@ -24,7 +21,10 @@ class LoginPresenterUnitTest {
     private lateinit var presenter: LoginPresenter
     private var loginActivityMock = mock<LoginActivityInput>()
     private var output = WeakReference<LoginActivityInput>(loginActivityMock)
-    private var userMock = mock<User>()
+    private var loginDataMock = mock<LoginData>()
+    private var userMock = mock<User>{
+        on { loginData } doReturn loginDataMock
+    }
 
     @Before
     fun setup() {
@@ -52,7 +52,7 @@ class LoginPresenterUnitTest {
         presenter.onSavedUserFetched(userMock)
 
         //THEN
-        verify(loginActivityMock).displayLastSavedUser(argThat { this == LoginViewModel(userMock.loginData) })
+        verify(loginActivityMock).displayLastSavedUser(argThat { this == userMock.loginData })
     }
 
     @Test

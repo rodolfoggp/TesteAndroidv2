@@ -1,8 +1,8 @@
 package com.rodolfogusson.bankapp.login
 
 import com.nhaarman.mockitokotlin2.*
+import com.rodolfogusson.bankapp.R
 import com.rodolfogusson.bankapp.login.domain.LoginData
-import com.rodolfogusson.bankapp.login.domain.LoginViewModel
 import com.rodolfogusson.bankapp.login.interactor.LoginInteractorInput
 import com.rodolfogusson.bankapp.login.presentation.LoginActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -41,7 +41,7 @@ class LoginActivityUnitTest {
         activity.output = interactorSpy
 
         //WHEN
-        activity.button.performClick()
+        activity.loginButton.performClick()
 
         //THEN
         verify(interactorSpy).sendLoginRequest(any())
@@ -56,7 +56,7 @@ class LoginActivityUnitTest {
         activity.passwordEditText.setText(passwordText)
 
         //WHEN
-        activity.button.performClick()
+        activity.loginButton.performClick()
 
         //THEN
         verify(interactorSpy).sendLoginRequest(
@@ -96,10 +96,9 @@ class LoginActivityUnitTest {
     fun `when displayLastSavedUser is called, user field is correctly filled`() {
         //GIVEN
         val loginData = LoginData(loginText, passwordText)
-        val viewModel = LoginViewModel(loginData)
 
         //WHEN
-        activity.displayLastSavedUser(viewModel)
+        activity.displayLastSavedUser(loginData)
 
         //THEN
         assertEquals(activity.userEditText.text.toString(), loginText)
@@ -109,12 +108,51 @@ class LoginActivityUnitTest {
     fun `when displayLastSavedUser is called, password field is correctly filled`() {
         //GIVEN
         val loginData = LoginData(loginText, passwordText)
-        val viewModel = LoginViewModel(loginData)
 
         //WHEN
-        activity.displayLastSavedUser(viewModel)
+        activity.displayLastSavedUser(loginData)
 
         //THEN
         assertEquals(activity.passwordEditText.text.toString(), passwordText)
+    }
+
+    @Test
+    fun `displayUserError should set the user error view text`() {
+        //GIVEN
+        val stringId = R.string.invalid_user_error
+
+        //WHEN
+        activity.displayUserError(stringId)
+
+        //THEN
+        assertEquals(activity.getString(R.string.invalid_user_error), activity.userError.text.toString())
+    }
+
+    @Test
+    fun `displayPasswordError should set the password error view text`() {
+        //GIVEN
+        val stringId = R.string.invalid_password_error
+
+        //WHEN
+        activity.displayPasswordError(stringId)
+
+        //THEN
+        assertEquals(activity.getString(R.string.invalid_password_error), activity.passwordError.text.toString())
+    }
+
+    @Test
+    fun `when loginButton is clicked, errors should be cleared`() {
+        //GIVEN
+        activity.userError.setText(R.string.invalid_user_error)
+        activity.passwordError.setText(R.string.invalid_password_error)
+        val interactorMock = mock<LoginInteractorInput>()
+        activity.output = interactorMock
+
+        //WHEN
+        activity.loginButton.performClick()
+
+        //THEN
+        assertTrue(activity.userError.text.toString().isEmpty())
+        assertTrue(activity.passwordError.text.toString().isEmpty())
     }
 }

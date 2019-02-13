@@ -9,19 +9,29 @@
 
     <EditText
         android:id="@+id/userEditText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/userError"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/passwordError"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TESTE"
-        android:onClick="buttonClicked"/>
+        android:onClick="onLoginButtonClicked"/>
 
 </LinearLayout>
