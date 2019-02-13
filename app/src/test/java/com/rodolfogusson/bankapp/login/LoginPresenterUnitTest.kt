@@ -11,6 +11,7 @@ import com.rodolfogusson.bankapp.login.presentation.LoginPresenter
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.intThat
 import org.robolectric.RobolectricTestRunner
 import java.lang.ref.WeakReference
 
@@ -107,22 +108,45 @@ class LoginPresenterUnitTest {
         verify(loginActivityMock).displayPasswordError(R.string.invalid_password_error)
     }
 
-//    @Test
-//    fun presentLoginData_with_validInput_shouldCall_displayLoginData() {
-//        // Given
-//        //val response = LoginResponse()
-//        // Set up the Spy or Mocks
-//        // response.listOfFlights = FlightWorker().futureFlights
-//
-//
-//        // When
-//        //presenter.presentLoginData(response)
-//
-//        // Then
-//        // Assert.assertTrue("When the isValid input is passed to presenter" +
-//        //        "Then displayLastSavedUser should be called",
-//        //         homeFragmentInputSpy.isDisplayHomeMetaDataCalled)
-//    }
+    @Test
+    fun `onLoginSuccessful should call navigateToNextActivity`() {
+        //GIVEN
+        presenter.output = output
+
+        //WHEN
+        presenter.onLoginSuccessful()
+
+        //THEN
+        verify(loginActivityMock).navigateToNextActivity()
+    }
+
+    @Test
+    fun `onLoginFailed should call displayLoginError`() {
+        //GIVEN
+        presenter.output = output
+        val errorMock = mock<Throwable>()
+
+        //WHEN
+        presenter.onLoginFailed(errorMock)
+
+        //THEN
+        verify(loginActivityMock).displayLoginError(any(), any())
+    }
+
+    @Test
+    fun `presenter calls displayLoginError with the correct input`() {
+        //GIVEN
+        presenter.output = output
+        val errorMock = mock<Throwable>()
+
+        //WHEN
+        presenter.onLoginFailed(errorMock)
+
+        //THEN
+        verify(loginActivityMock).displayLoginError(
+            intThat { it == R.string.error_dialog_title},
+            intThat { it == R.string.login_failed })
+    }
 
     companion object {
         const val TAG = "HomePresenterUnitTest"

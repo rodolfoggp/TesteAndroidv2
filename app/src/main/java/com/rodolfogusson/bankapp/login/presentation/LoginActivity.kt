@@ -3,6 +3,7 @@ package com.rodolfogusson.bankapp.login.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.rodolfogusson.bankapp.R
 import com.rodolfogusson.bankapp.login.domain.LoginData
@@ -13,7 +14,8 @@ interface LoginActivityInput {
     fun displayLastSavedUser(loginData: LoginData)
     fun displayUserError(messageId: Int)
     fun displayPasswordError(messageId: Int)
-    fun onLoginSuccessful()
+    fun displayLoginError(titleId: Int, messageId: Int)
+    fun navigateToNextActivity()
 }
 
 class LoginActivity : AppCompatActivity(), LoginActivityInput {
@@ -45,18 +47,27 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
         passwordError.setText(R.string.invalid_password_error)
     }
 
-    override fun onLoginSuccessful() {
+    override fun displayLoginError(titleId: Int, messageId: Int) {
+        AlertDialog.Builder(this)
+            .setTitle(titleId)
+            .setMessage(messageId)
+            .setPositiveButton(R.string.ok_button) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    override fun navigateToNextActivity() {
         val nextActivity = router.determineNextScreen()
         startActivity(Intent(this, nextActivity::class.java))
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onLoginButtonClicked(v: View) {
         clearFieldsErrors()
         val loginData = LoginData(userEditText.text.toString(), passwordEditText.text.toString())
         output.sendLoginRequest(loginData)
     }
 
-    fun clearFieldsErrors() {
+    private fun clearFieldsErrors() {
         userError.text = ""
         passwordError.text = ""
     }

@@ -1,5 +1,6 @@
 package com.rodolfogusson.bankapp.login
 
+import android.widget.TextView
 import com.nhaarman.mockitokotlin2.*
 import com.rodolfogusson.bankapp.R
 import com.rodolfogusson.bankapp.login.domain.LoginData
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
+import org.robolectric.shadows.ShadowDialog
 
 
 @RunWith(RobolectricTestRunner::class)
@@ -64,12 +66,12 @@ class LoginActivityUnitTest {
     }
 
     @Test
-    fun `when login was successful, the next activity is called`() {
+    fun `navigateToNextActivity should call the next activity`() {
         //GIVEN
         val nextActivity = activity.router.determineNextScreen()
 
         //WHEN
-        activity.onLoginSuccessful()
+        activity.navigateToNextActivity()
 
         //THEN
         val shadowActivity = shadowOf(activity)
@@ -154,5 +156,20 @@ class LoginActivityUnitTest {
         //THEN
         assertTrue(activity.userError.text.toString().isEmpty())
         assertTrue(activity.passwordError.text.toString().isEmpty())
+    }
+
+    @Test
+    fun `displayLoginError should show an AlertDialog`() {
+        //GIVEN
+        val initialDialog = ShadowDialog.getLatestDialog()
+        assertNull(initialDialog)
+
+        //WHEN
+        activity.displayLoginError(R.string.error_dialog_title, R.string.login_failed)
+
+        //THEN
+        val dialog = ShadowDialog.getLatestDialog()
+        assertNotNull(dialog)
+        assertTrue(dialog.isShowing)
     }
 }

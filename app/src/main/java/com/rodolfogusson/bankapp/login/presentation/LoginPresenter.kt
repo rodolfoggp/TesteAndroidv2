@@ -24,11 +24,13 @@ class LoginPresenter : LoginPresenterInput {
     var output: WeakReference<LoginActivityInput>? = null
 
     override fun onLoginSuccessful() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        output?.get()?.navigateToNextActivity()
     }
 
     override fun onLoginFailed(error: Throwable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        output?.get()?.displayLoginError(
+            titleId = R.string.error_dialog_title,
+            messageId = R.string.login_failed)
     }
 
     override fun onSavedUserFetched(user: User) {
