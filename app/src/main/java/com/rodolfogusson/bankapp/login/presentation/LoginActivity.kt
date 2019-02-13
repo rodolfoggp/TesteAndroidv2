@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 interface LoginActivityInput {
     fun displayLastSavedUser(viewModel: LoginViewModel)
+    fun displayUserError(messageId: Int)
+    fun displayPasswordError(messageId: Int)
     fun onLoginSuccessful()
 }
 
@@ -32,8 +34,18 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
     }
 
     override fun displayLastSavedUser(viewModel: LoginViewModel) {
-        userEditText.setText(viewModel.loginData.login)
-        passwordEditText.setText(viewModel.loginData.password)
+        userEditText.setText(viewModel.loginData?.login)
+        passwordEditText.setText(viewModel.loginData?.password)
+    }
+
+    //TODO: Test this
+    override fun displayUserError(messageId: Int) {
+
+    }
+
+    //TODO: Test this
+    override fun displayPasswordError(messageId: Int) {
+
     }
 
     override fun onLoginSuccessful() {

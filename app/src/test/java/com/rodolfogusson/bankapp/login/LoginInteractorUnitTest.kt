@@ -90,7 +90,7 @@ class LoginInteractorUnitTest {
         interactor.sendLoginRequest(loginDataMock)
 
         //THEN
-        verify(presenterMock).presentValidationError(any())
+        verify(presenterMock).presentValidationErrors(any())
     }
 
     @Test
@@ -107,7 +107,7 @@ class LoginInteractorUnitTest {
         interactor.sendLoginRequest(loginDataMock)
 
         //THEN
-        verify(presenterMock).presentValidationError(
+        verify(presenterMock).presentValidationErrors(
             argThat { this.errors == errorsList })
     }
 

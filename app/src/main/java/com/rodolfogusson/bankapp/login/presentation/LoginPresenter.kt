@@ -1,12 +1,14 @@
 package com.rodolfogusson.bankapp.login.presentation
 
+import com.rodolfogusson.bankapp.R
+import com.rodolfogusson.bankapp.login.domain.LoginViewModel
 import com.rodolfogusson.bankapp.login.domain.User
 import com.rodolfogusson.bankapp.login.domain.Validation
+import com.rodolfogusson.bankapp.login.domain.Validation.ValidationError.*
 import java.lang.ref.WeakReference
 
 interface LoginPresenterInput : LoginCallback, SavedUserCallback {
-    fun presentSavedUser(user: User)
-    fun presentValidationError(validation: Validation)
+    fun presentValidationErrors(validation: Validation)
 }
 
 interface LoginCallback {
@@ -31,20 +33,22 @@ class LoginPresenter : LoginPresenterInput {
     }
 
     override fun onSavedUserFetched(user: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val viewModel = LoginViewModel(user.loginData)
+        output?.get()?.displayLastSavedUser(viewModel)
     }
 
-    override fun presentSavedUser(user: User) {
+    override fun presentValidationErrors(validation: Validation) {
+        for (error in validation.errors) {
+            presentValidationErrorFor(error)
+        }
     }
 
-    override fun presentValidationError(validation: Validation) {
+    private fun presentValidationErrorFor(error: Validation.ValidationError) {
+        when(error) {
+            InvalidEmailOrCPF -> output?.get()?.displayUserError(R.string.invalid_user_error)
+            InvalidPassword -> output?.get()?.displayPasswordError(R.string.invalid_password_error)
+        }
     }
-
-//    override fun presentLoginData(response: LoginResponse) {
-//        // Log.d(TAG, "presentLoginData() called with: response = [$response]");
-//        // Do your decoration or filtering here
-//
-//    }
 
     companion object {
         const val TAG = "LoginPresenter"

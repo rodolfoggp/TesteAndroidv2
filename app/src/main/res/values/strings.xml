@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BankApp</string>
+
+    //Login Errors
+    <string name="invalid_user_error">User must be a valid CPF or Email</string>
+    <string name="invalid_password_error">Password is invalid</string>
 </resources>

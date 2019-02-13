@@ -26,7 +26,7 @@ class LoginInteractor : LoginInteractorInput {
         if (validation.isValid) {
             repository.login(loginData, output)
         } else {
-            output.presentValidationError(validation)
+            output.presentValidationErrors(validation)
         }
     }
 
