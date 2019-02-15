@@ -9,9 +9,9 @@ interface LoginRouterInput {
     fun determineNextScreen(): Intent
 }
 
-class LoginRouter : LoginRouterInput {
-
-    lateinit var activity: WeakReference<LoginActivity>
+class LoginRouter(
+    private val activity: WeakReference<LoginActivity>
+) : LoginRouterInput {
 
     override fun determineNextScreen(): Intent {
         return Intent(activity.get(), UserStatementsActivity::class.java)

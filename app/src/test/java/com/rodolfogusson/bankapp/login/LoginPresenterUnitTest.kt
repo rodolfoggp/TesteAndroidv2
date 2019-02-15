@@ -20,17 +20,16 @@ import java.lang.ref.WeakReference
 class LoginPresenterUnitTest {
 
     private lateinit var presenter: LoginPresenter
-    private var loginActivityMock = mock<LoginActivityInput>()
-    private var output = WeakReference<LoginActivityInput>(loginActivityMock)
-    private var loginDataMock = mock<LoginData>()
-    private var userMock = mock<User>{
+    private val loginActivityMock = mock<LoginActivityInput>()
+    private val output = WeakReference<LoginActivityInput>(loginActivityMock)
+    private val loginDataMock = mock<LoginData>()
+    private val userMock = mock<User>{
         on { loginData } doReturn loginDataMock
     }
 
     @Before
     fun setup() {
-        presenter = LoginPresenter()
-        presenter.output = output
+        presenter = LoginPresenter(output)
     }
 
     @Test

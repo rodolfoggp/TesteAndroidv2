@@ -19,23 +19,23 @@ interface SavedUserCallback {
     fun onSavedUserFetched(user: User)
 }
 
-class LoginPresenter : LoginPresenterInput {
-
-    var output: WeakReference<LoginActivityInput>? = null
+class LoginPresenter(
+    private val output: WeakReference<LoginActivityInput>
+) : LoginPresenterInput {
 
     override fun onLoginSuccessful() {
-        output?.get()?.navigateToNextActivity()
+        output.get()?.navigateToNextActivity()
     }
 
     override fun onLoginFailed(error: Throwable) {
-        output?.get()?.displayLoginError(
+        output.get()?.displayLoginError(
             titleId = R.string.error_dialog_title,
             messageId = R.string.login_failed)
     }
 
     override fun onSavedUserFetched(user: User) {
         user.loginData?.let {
-            output?.get()?.displayLastSavedUser(it)
+            output.get()?.displayLastSavedUser(it)
         }
     }
 
@@ -47,8 +47,8 @@ class LoginPresenter : LoginPresenterInput {
 
     private fun presentValidationErrorFor(error: Validation.ValidationError) {
         when(error) {
-            InvalidEmailOrCPF -> output?.get()?.displayUserError(R.string.invalid_user_error)
-            InvalidPassword -> output?.get()?.displayPasswordError(R.string.invalid_password_error)
+            InvalidEmailOrCPF -> output.get()?.displayUserError(R.string.invalid_user_error)
+            InvalidPassword -> output.get()?.displayPasswordError(R.string.invalid_password_error)
         }
     }
 

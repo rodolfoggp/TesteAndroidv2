@@ -9,11 +9,9 @@ object LoginConfigurator {
 
     fun configureActivity(activity: LoginActivity) {
 
-        val router = LoginRouter()
-        router.activity = WeakReference(activity)
+        val router = LoginRouter(WeakReference(activity))
 
-        val presenter = LoginPresenter()
-        presenter.output = WeakReference(activity)
+        val presenter = LoginPresenter(WeakReference(activity))
 
         val interactor = LoginInteractor(presenter, LoginDataValidator(), LoginRepository())
 

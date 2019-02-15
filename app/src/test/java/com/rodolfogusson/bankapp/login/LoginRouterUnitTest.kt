@@ -16,13 +16,11 @@ import java.lang.ref.WeakReference
 class LoginRouterUnitTest {
 
     private lateinit var router: LoginRouter
-    private lateinit var activity: LoginActivity
 
     @Before
     fun setup() {
-        router = LoginRouter()
-        activity = Robolectric.setupActivity(LoginActivity::class.java)
-        router.activity = WeakReference(activity)
+        val activity = Robolectric.setupActivity(LoginActivity::class.java)
+        router = LoginRouter(WeakReference(activity))
     }
 
     @Test

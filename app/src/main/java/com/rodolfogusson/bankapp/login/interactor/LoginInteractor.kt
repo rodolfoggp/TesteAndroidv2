@@ -1,10 +1,8 @@
 package com.rodolfogusson.bankapp.login.interactor
 
 import androidx.test.espresso.idling.CountingIdlingResource
-import com.rodolfogusson.bankapp.login.data.LoginRepository
 import com.rodolfogusson.bankapp.login.data.LoginRepositoryInput
 import com.rodolfogusson.bankapp.login.domain.LoginData
-import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
 import com.rodolfogusson.bankapp.login.domain.LoginDataValidatorInput
 import com.rodolfogusson.bankapp.login.presentation.LoginPresenterInput
 
@@ -15,15 +13,12 @@ interface LoginInteractorInput {
 }
 
 class LoginInteractor(
-    val output: LoginPresenterInput,
-    val validator: LoginDataValidatorInput,
-    val repository: LoginRepositoryInput
+    private val output: LoginPresenterInput,
+    private val validator: LoginDataValidatorInput,
+    private val repository: LoginRepositoryInput
 ) : LoginInteractorInput {
 
     override val idlingResource = CountingIdlingResource("loginRequest")
-    //lateinit var output: LoginPresenterInput
-    //var validator: LoginDataValidatorInput = LoginDataValidator()
-    //var repository: LoginRepositoryInput = LoginRepository()
 
     override fun sendLoginRequest(loginData: LoginData) {
         val validation = validator.validate(loginData)
