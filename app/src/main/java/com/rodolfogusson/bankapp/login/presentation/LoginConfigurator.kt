@@ -1,5 +1,6 @@
 package com.rodolfogusson.bankapp.login.presentation
 
+import com.rodolfogusson.bankapp.login.data.LoginRepository
 import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
 import com.rodolfogusson.bankapp.login.interactor.LoginInteractor
 import java.lang.ref.WeakReference
@@ -14,8 +15,7 @@ object LoginConfigurator {
         val presenter = LoginPresenter()
         presenter.output = WeakReference(activity)
 
-        val interactor = LoginInteractor()
-        interactor.output = presenter
+        val interactor = LoginInteractor(presenter, LoginDataValidator(), LoginRepository())
 
         activity.output = interactor
         activity.router = router

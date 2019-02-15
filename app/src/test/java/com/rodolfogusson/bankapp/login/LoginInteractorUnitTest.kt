@@ -20,21 +20,17 @@ class LoginInteractorUnitTest {
     private val loginDataMock = mock<LoginData>()
     private val presenterMock = mock<LoginPresenterInput>()
     private val repositoryMock = mock<LoginRepositoryInput>()
+    private val validatorMock = mock<LoginDataValidatorInput>()
 
     @Before
     fun setup() {
-        interactor = LoginInteractor()
+        interactor = LoginInteractor(presenterMock, validatorMock, repositoryMock)
     }
 
     @Test
     fun `when sendLoginRequest is called, login data is validated`() {
         //GIVEN
-        val validatorMock = mock<LoginDataValidatorInput> {
-            on { validate(any()) } doReturn Validation(true, ArrayList())
-        }
-        interactor.validator = validatorMock
-        interactor.repository = repositoryMock
-        interactor.output = presenterMock
+        whenever(validatorMock.validate(any())).thenReturn(Validation(true, ArrayList()))
 
         //WHEN
         interactor.sendLoginRequest(loginDataMock)
@@ -46,12 +42,7 @@ class LoginInteractorUnitTest {
     @Test
     fun `when sendLoginRequest is called and login data is valid, a login request is sent`() {
         //GIVEN
-        val validatorMock = mock<LoginDataValidatorInput> {
-            on { validate(any()) } doReturn Validation(true, ArrayList())
-        }
-        interactor.validator = validatorMock
-        interactor.repository = repositoryMock
-        interactor.output = presenterMock
+        whenever(validatorMock.validate(any())).thenReturn(Validation(true, ArrayList()))
 
         //WHEN
         interactor.sendLoginRequest(loginDataMock)
@@ -63,12 +54,7 @@ class LoginInteractorUnitTest {
     @Test
     fun `sendLoginRequest calls login request with correct data and callback`() {
         //GIVEN
-        val validatorMock = mock<LoginDataValidatorInput> {
-            on { validate(any()) } doReturn Validation(true, ArrayList())
-        }
-        interactor.validator = validatorMock
-        interactor.repository = repositoryMock
-        interactor.output = presenterMock
+        whenever(validatorMock.validate(any())).thenReturn(Validation(true, ArrayList()))
 
         //WHEN
         interactor.sendLoginRequest(loginDataMock)
@@ -80,11 +66,7 @@ class LoginInteractorUnitTest {
     @Test
     fun `when login data validation fails, presentValidationError is called`() {
         //GIVEN
-        val validatorMock = mock<LoginDataValidatorInput> {
-            on { validate(any()) } doReturn Validation(false, ArrayList())
-        }
-        interactor.validator = validatorMock
-        interactor.output = presenterMock
+        whenever(validatorMock.validate(any())).thenReturn(Validation(false, ArrayList()))
 
         //WHEN
         interactor.sendLoginRequest(loginDataMock)
@@ -97,11 +79,7 @@ class LoginInteractorUnitTest {
     fun `when login data validation fails, the right error is passed to the presenter`() {
         //GIVEN
         val errorsList = arrayListOf(InvalidEmailOrCPF, InvalidPassword)
-        val validatorMock = mock<LoginDataValidatorInput> {
-            on { validate(any()) } doReturn Validation(false, errorsList)
-        }
-        interactor.validator = validatorMock
-        interactor.output = presenterMock
+        whenever(validatorMock.validate(any())).thenReturn(Validation(false, errorsList))
 
         //WHEN
         interactor.sendLoginRequest(loginDataMock)
@@ -113,10 +91,6 @@ class LoginInteractorUnitTest {
 
     @Test
     fun `fetchLastSavedUser gets the user from LoginRepository`() {
-        //GIVEN
-        interactor.repository = repositoryMock
-        interactor.output = presenterMock
-
         //WHEN
         interactor.fetchLastSavedUser()
 
@@ -126,10 +100,6 @@ class LoginInteractorUnitTest {
 
     @Test
     fun `fetchLastSavedUser is called with the correct callback`() {
-        //GIVEN
-        interactor.repository = repositoryMock
-        interactor.output = presenterMock
-
         //WHEN
         interactor.fetchLastSavedUser()
 

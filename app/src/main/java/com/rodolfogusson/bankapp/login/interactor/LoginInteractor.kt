@@ -14,12 +14,16 @@ interface LoginInteractorInput {
     val idlingResource: CountingIdlingResource
 }
 
-class LoginInteractor : LoginInteractorInput {
+class LoginInteractor(
+    val output: LoginPresenterInput,
+    val validator: LoginDataValidatorInput,
+    val repository: LoginRepositoryInput
+) : LoginInteractorInput {
 
     override val idlingResource = CountingIdlingResource("loginRequest")
-    lateinit var output: LoginPresenterInput
-    var validator: LoginDataValidatorInput = LoginDataValidator()
-    var repository: LoginRepositoryInput = LoginRepository()
+    //lateinit var output: LoginPresenterInput
+    //var validator: LoginDataValidatorInput = LoginDataValidator()
+    //var repository: LoginRepositoryInput = LoginRepository()
 
     override fun sendLoginRequest(loginData: LoginData) {
         val validation = validator.validate(loginData)
