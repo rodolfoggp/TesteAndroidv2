@@ -20,14 +20,12 @@ import org.robolectric.shadows.ShadowDialog
 class LoginActivityUnitTest {
 
     private lateinit var activity: LoginActivity
-    private lateinit var loginData: LoginData
     private val loginText = "teste@teste.com.br"
     private val passwordText = "a9f28j2S"
 
     @Before
     fun setup() {
         activity = Robolectric.setupActivity(LoginActivity::class.java)
-        loginData = LoginData(loginText, passwordText)
     }
 
     @Test

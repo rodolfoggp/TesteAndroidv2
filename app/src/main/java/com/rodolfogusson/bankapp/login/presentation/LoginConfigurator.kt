@@ -1,5 +1,6 @@
 package com.rodolfogusson.bankapp.login.presentation
 
+import com.rodolfogusson.bankapp.core.network.ServiceProvider
 import com.rodolfogusson.bankapp.login.data.LoginRepository
 import com.rodolfogusson.bankapp.login.domain.LoginDataValidator
 import com.rodolfogusson.bankapp.login.interactor.LoginInteractor
@@ -13,7 +14,9 @@ object LoginConfigurator {
 
         val presenter = LoginPresenter(WeakReference(activity))
 
-        val interactor = LoginInteractor(presenter, LoginDataValidator(), LoginRepository())
+        val bankService = ServiceProvider.bankService()
+        val loginRepository = LoginRepository
+        val interactor = LoginInteractor(presenter, LoginDataValidator(), loginRepository)
 
         activity.output = interactor
         activity.router = router

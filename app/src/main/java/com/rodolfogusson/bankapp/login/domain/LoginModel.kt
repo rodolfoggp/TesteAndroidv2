@@ -1,14 +1,10 @@
 package com.rodolfogusson.bankapp.login.domain
 
+import com.rodolfogusson.bankapp.core.network.ApiResponse
+
 data class LoginData(
     val login: String,
     var password: String)
-
-//TODO: Remove viewmodel
-//data class LoginViewModel(
-//    val loginData: LoginData? = null,
-//    val userErrorId: Int? = null,
-//    val passwordErrorId: Int? = null)
 
 data class User(
     val userId: Int,
@@ -17,6 +13,10 @@ data class User(
     val agency: String,
     val balance: Double,
     val loginData: LoginData? = null)
+
+class LoginResponse : ApiResponse() {
+    val userAccount: User? = null
+}
 
 class LoginRequest{} //todo: USE this class
 
