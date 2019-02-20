@@ -17,7 +17,7 @@ class LoginDataValidatorUnitTest {
     private var validPassword = "A&1"
 
     @Before
-    fun setup() {
+    fun setUp() {
         validator = LoginDataValidator()
     }
 

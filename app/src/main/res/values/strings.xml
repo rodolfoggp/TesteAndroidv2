@@ -3,8 +3,8 @@
 
     //Login Errors
     <string name="invalid_user_error">User must be a valid CPF or Email</string>
-    <string name="invalid_password_error">Password is invalid</string>
-    <string name="login_failed">Login failed.</string>
+    <string name="invalid_password_error">Password is invalid (it must contain at least one upper case letter, one special character and one alphanumeric character)</string>
+    <string name="default_login_error">Login failed.</string>
 
     //Error Dialog
     <string name="error_dialog_title">Error</string>

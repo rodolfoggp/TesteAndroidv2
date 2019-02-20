@@ -6,6 +6,7 @@ import com.rodolfogusson.bankapp.login.domain.LoginData
 import com.rodolfogusson.bankapp.login.interactor.LoginInteractorInput
 import com.rodolfogusson.bankapp.login.presentation.LoginActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -22,10 +23,12 @@ class LoginActivityUnitTest {
     private lateinit var activity: LoginActivity
     private val loginText = "teste@teste.com.br"
     private val passwordText = "a9f28j2S"
+    private var interactorMock = mock<LoginInteractorInput>()
 
     @Before
-    fun setup() {
+    fun setUp() {
         activity = Robolectric.setupActivity(LoginActivity::class.java)
+        activity.output = interactorMock
     }
 
     @Test
@@ -35,22 +38,16 @@ class LoginActivityUnitTest {
 
     @Test
     fun `when button is clicked, sendLoginRequest is called`() {
-        //GIVEN
-        val interactorSpy = spy<LoginInteractorInput>()
-        activity.output = interactorSpy
-
         //WHEN
         activity.loginButton.performClick()
 
         //THEN
-        verify(interactorSpy).sendLoginRequest(any())
+        verify(interactorMock).sendLoginRequest(any())
     }
 
     @Test
     fun `button click calls sendLoginRequest with correct data`() {
         //GIVEN
-        val interactorSpy = spy<LoginInteractorInput>()
-        activity.output = interactorSpy
         activity.userEditText.setText(loginText)
         activity.passwordEditText.setText(passwordText)
 
@@ -58,37 +55,33 @@ class LoginActivityUnitTest {
         activity.loginButton.performClick()
 
         //THEN
-        verify(interactorSpy).sendLoginRequest(
-            argThat { this.login == loginText && this.password == passwordText })
+        verify(interactorMock).sendLoginRequest(
+            argThat { this.user == loginText && this.password == passwordText })
     }
 
     @Test
     fun `navigateToNextActivity should call the next activity`() {
         //GIVEN
-        val nextActivity = activity.router.determineNextScreen()
+        val nextActivityIntent = activity.router.determineNextScreen()
 
         //WHEN
         activity.navigateToNextActivity()
 
         //THEN
         val shadowActivity = shadowOf(activity)
-        val intent = shadowActivity.nextStartedActivity
-        assertNotNull(intent)
-        val shadowIntent = shadowOf(intent)
-        assertEquals(nextActivity::class.java.name, shadowIntent.intentClass.name)
+        val triggeredIntent = shadowActivity.nextStartedActivity
+        assertNotNull(triggeredIntent)
+        val shadowIntent = shadowOf(triggeredIntent)
+        assertEquals(nextActivityIntent.component.className, shadowIntent.intentClass.name)
     }
 
     @Test
     fun `onCreate calls fetchLastSavedUser`() {
-        //GIVEN
-        val interactorSpy = spy<LoginInteractorInput>()
-        activity.output = interactorSpy
-
         //WHEN
         activity.fetchUserData()
 
         //THEN
-        verify(interactorSpy).fetchLastSavedUser()
+        verify(interactorMock).fetchLastSavedUser()
     }
 
     @Test
@@ -144,8 +137,6 @@ class LoginActivityUnitTest {
         //GIVEN
         activity.userError.setText(R.string.invalid_user_error)
         activity.passwordError.setText(R.string.invalid_password_error)
-        val interactorMock = mock<LoginInteractorInput>()
-        activity.output = interactorMock
 
         //WHEN
         activity.loginButton.performClick()
@@ -162,7 +153,7 @@ class LoginActivityUnitTest {
         assertNull(initialDialog)
 
         //WHEN
-        activity.displayLoginError(R.string.error_dialog_title, R.string.login_failed)
+        activity.displayLoginError()
 
         //THEN
         val dialog = ShadowDialog.getLatestDialog()

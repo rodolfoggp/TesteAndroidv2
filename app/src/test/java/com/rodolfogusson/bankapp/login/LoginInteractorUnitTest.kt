@@ -23,7 +23,7 @@ class LoginInteractorUnitTest {
     private val validatorMock = mock<LoginDataValidatorInput>()
 
     @Before
-    fun setup() {
+    fun setUp() {
         interactor = LoginInteractor(presenterMock, validatorMock, repositoryMock)
     }
 

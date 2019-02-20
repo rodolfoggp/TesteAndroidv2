@@ -14,7 +14,7 @@ interface LoginActivityInput {
     fun displayLastSavedUser(loginData: LoginData)
     fun displayUserError(messageId: Int)
     fun displayPasswordError(messageId: Int)
-    fun displayLoginError(titleId: Int, messageId: Int)
+    fun displayLoginError(message: String? = null)
     fun navigateToNextActivity()
 }
 
@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
     }
 
     override fun displayLastSavedUser(loginData: LoginData) {
-        userEditText.setText(loginData.login)
+        userEditText.setText(loginData.user)
         passwordEditText.setText(loginData.password)
     }
 
@@ -47,17 +47,17 @@ class LoginActivity : AppCompatActivity(), LoginActivityInput {
         passwordError.setText(R.string.invalid_password_error)
     }
 
-    override fun displayLoginError(titleId: Int, messageId: Int) {
+    override fun displayLoginError(message: String?) {
         AlertDialog.Builder(this)
-            .setTitle(titleId)
-            .setMessage(messageId)
+            .setTitle(R.string.error_dialog_title)
+            .setMessage(message ?: getString(R.string.default_login_error))
             .setPositiveButton(R.string.ok_button) { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
     override fun navigateToNextActivity() {
-        val nextActivity = router.determineNextScreen()
-        startActivity(Intent(this, nextActivity::class.java))
+        val nextActivityIntent = router.determineNextScreen()
+        startActivity(nextActivityIntent)
     }
 
     @Suppress("UNUSED_PARAMETER")

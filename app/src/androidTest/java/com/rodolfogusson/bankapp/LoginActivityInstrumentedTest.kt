@@ -52,15 +52,15 @@ class LoginActivityInstrumentedTest {
 
     @Test
     fun whenUserEntersLoginData_andClicksLoginButton_UserStatementsActivityIsShown() {
-        //A user with these credentials wants to login
+        //A user with these credentials wants to user
         val loginText = "teste@teste.com.br"
         val passwordText = "a9f28j2S"
 
-        //The user types in its login data in each field
+        //The user types in its user data in each field
         onView(withId(R.id.userEditText)).perform(typeText(loginText))
         onView(withId(R.id.passwordEditText)).perform(typeText(passwordText), closeSoftKeyboard())
 
-        //And clicks the login button
+        //And clicks the user button
         Intents.init()
         val loginRequest = activityRule.activity.output.idlingResource
         IdlingRegistry.getInstance().register(loginRequest)

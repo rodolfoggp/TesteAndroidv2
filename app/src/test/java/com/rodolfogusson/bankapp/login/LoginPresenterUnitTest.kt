@@ -28,26 +28,26 @@ class LoginPresenterUnitTest {
     }
 
     @Before
-    fun setup() {
+    fun setUp() {
         presenter = LoginPresenter(output)
     }
 
     @Test
     fun `when onSavedUserFetched is called, the fetched user should be displayed in the activity`() {
         //WHEN
-        presenter.onSavedUserFetched(userMock)
+        presenter.onSavedUserFetched(loginDataMock)
 
         //THEN
         verify(loginActivityMock).displayLastSavedUser(any())
     }
 
     @Test
-    fun `when onSavedUserFetched is called, activity should receive the correct view model`() {
+    fun `when onSavedUserFetched is called, activity should receive the correct data`() {
         //WHEN
-        presenter.onSavedUserFetched(userMock)
+        presenter.onSavedUserFetched(loginDataMock)
 
         //THEN
-        verify(loginActivityMock).displayLastSavedUser(argThat { this == userMock.loginData })
+        verify(loginActivityMock).displayLastSavedUser(argThat { this == loginDataMock })
     }
 
     @Test
@@ -109,28 +109,23 @@ class LoginPresenterUnitTest {
 
     @Test
     fun `onLoginFailed should call displayLoginError`() {
-        //GIVEN
-        val errorMock = mock<Throwable>()
-
         //WHEN
-        presenter.onLoginFailed(errorMock)
+        presenter.onLoginFailed()
 
         //THEN
-        verify(loginActivityMock).displayLoginError(any(), any())
+        verify(loginActivityMock).displayLoginError()
     }
 
     @Test
     fun `presenter calls displayLoginError with the correct input`() {
         //GIVEN
-        val errorMock = mock<Throwable>()
+        val errorMessageMock = "Error mock"
 
         //WHEN
-        presenter.onLoginFailed(errorMock)
+        presenter.onLoginFailed(errorMessageMock)
 
         //THEN
-        verify(loginActivityMock).displayLoginError(
-            intThat { it == R.string.error_dialog_title},
-            intThat { it == R.string.login_failed })
+        verify(loginActivityMock).displayLoginError(argThat { this == errorMessageMock})
     }
 
     companion object {

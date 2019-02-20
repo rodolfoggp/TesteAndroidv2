@@ -1,6 +1,9 @@
 package com.rodolfogusson.bankapp.login.presentation
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import com.rodolfogusson.bankapp.R
+import com.rodolfogusson.bankapp.login.domain.LoginData
 import com.rodolfogusson.bankapp.login.domain.User
 import com.rodolfogusson.bankapp.login.domain.Validation
 import com.rodolfogusson.bankapp.login.domain.Validation.ValidationError.*
@@ -12,11 +15,11 @@ interface LoginPresenterInput : LoginCallback, SavedUserCallback {
 
 interface LoginCallback {
     fun onLoginSuccessful()
-    fun onLoginFailed(error: Throwable)
+    fun onLoginFailed(message: String? = null)
 }
 
 interface SavedUserCallback {
-    fun onSavedUserFetched(user: User)
+    fun onSavedUserFetched(loginData: LoginData)
 }
 
 class LoginPresenter(
@@ -27,16 +30,12 @@ class LoginPresenter(
         output.get()?.navigateToNextActivity()
     }
 
-    override fun onLoginFailed(error: Throwable) {
-        output.get()?.displayLoginError(
-            titleId = R.string.error_dialog_title,
-            messageId = R.string.login_failed)
+    override fun onLoginFailed(message: String?) {
+        output.get()?.displayLoginError(message)
     }
 
-    override fun onSavedUserFetched(user: User) {
-        user.loginData?.let {
-            output.get()?.displayLastSavedUser(it)
-        }
+    override fun onSavedUserFetched(loginData: LoginData) {
+        output.get()?.displayLastSavedUser(loginData)
     }
 
     override fun presentValidationErrors(validation: Validation) {

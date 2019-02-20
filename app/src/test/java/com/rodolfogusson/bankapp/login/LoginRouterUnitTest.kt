@@ -18,7 +18,7 @@ class LoginRouterUnitTest {
     private lateinit var router: LoginRouter
 
     @Before
-    fun setup() {
+    fun setUp() {
         val activity = Robolectric.setupActivity(LoginActivity::class.java)
         router = LoginRouter(WeakReference(activity))
     }

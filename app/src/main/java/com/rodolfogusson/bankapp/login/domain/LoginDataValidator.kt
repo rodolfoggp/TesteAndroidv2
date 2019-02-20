@@ -12,7 +12,7 @@ class LoginDataValidator : LoginDataValidatorInput {
         var valid = true
         var errors = ArrayList<ValidationError>()
 
-        if (!validateLogin(loginData.login)) {
+        if (!validateLogin(loginData.user)) {
             valid = false
             errors.add(ValidationError.InvalidEmailOrCPF)
         }
@@ -30,7 +30,7 @@ class LoginDataValidator : LoginDataValidatorInput {
     }
 
     private fun validateCPF(login: String): Boolean {
-        //If login doesn't contain only numbers, dots and dash, it's invalid
+        //If user doesn't contain only numbers, dots and dash, it's invalid
         if (!login.matches("[-0-9.]+".toRegex())) return false
 
         //If there aren't 11 numbers in the string, it's invalid

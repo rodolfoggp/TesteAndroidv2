@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -32,9 +34,11 @@ android {
 }
 
 dependencies {
-    def espressoVersion = '3.1.0'
     def retrofitVersion = '2.4.0'
     def loggingInterceptorVersion = '3.9.0'
+    def gsonVersion = '2.8.5'
+    def roomVersion = '2.0.0'
+    def espressoVersion = '3.1.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -46,13 +50,21 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
 
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+
     testImplementation 'org.robolectric:robolectric:4.1'
 
     testImplementation 'junit:junit:4.12'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.1'
+    testImplementation 'androidx.test:core:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:' + espressoVersion
     androidTestImplementation 'androidx.test.espresso:espresso-intents:' + espressoVersion
+
     implementation 'androidx.test.espresso:espresso-idling-resource:' + espressoVersion
 
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
